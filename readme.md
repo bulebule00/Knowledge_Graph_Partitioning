@@ -2,13 +2,17 @@
 
 # 基于节点纬度的知识图谱分割
 
+> `后续项目` 分布式（跨文件）图数据的检索：<https://github.com/Island-c/Distributed_KnowledgeGraph_Query>
+
  ###  目录说明
 
 ./Database 目录存放数据集
 
 ./Neo4j 实现数据可视化
 
-./src 为源代码目录，有三个文件夹：
+./Image 存放readme中的相关图片
+
+./src 为源代码目录，有两个文件夹：
 
 - lib : 存放依赖项 jar包。 javacsv.jar 用于读取存储csv文件。
 - Partitioning ： 存放核心代码
