@@ -1,8 +1,0 @@
-Name,ClusterNo,Property,Degree,Visited,Border
-P,2,保护,1,false,false
-I,1,噪声,3,false,true
-K,2,边界,2,false,true
-L,2,高密度,5,false,false
-M,2,保护,1,false,false
-N,2,保护,1,false,false
-O,2,保护,1,false,false
