@@ -158,7 +158,7 @@ public class CliqueCluster {
 				//String other=get_another(spo,start.getName());//读取spo，得到与当前节点相连的另一个节点
 				String other=get_another(spo,top.getName());//读取spo，得到与当前节点相连的另一个节点
 				Node linked_node=Config.subject_object.get(other); //得到与之相连的节点的Node
-				writer.write("与"+top.getName()+"相连的node：  "+spo+"\n");
+				//writer.write("与"+top.getName()+"相连的node：  "+spo+"\n");
 				if(linked_node.getVisited()==false )
 				{	
 					//如果被保了 ，或者本身密度达到阈值，就给他加入队列的机会
@@ -297,7 +297,7 @@ public class CliqueCluster {
 		//int friend_is_border_Num=0;
 		//int friend_is_differ_cluster_Num=0;
 		boolean is_border=false;
-		List<Cluster> linked_clusters=new ArrayList<Cluster>();//边界点的索引表中使用的List
+		HashSet<Cluster> linked_clusters=new HashSet<Cluster>();//边界点的索引表中使用的List
 		linked_clusters.add(Config.clusters.get(start.getClusterNo())); //先把当前这个节点的cluster存进去
 		
 		//判断是否是边界

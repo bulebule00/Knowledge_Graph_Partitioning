@@ -15,7 +15,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -163,7 +162,7 @@ public class Input_Output {
 			//BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Config.Index_tablePath)));
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(Config.Index_tablePath)),"utf-8"));
 			//遍历索引表
-			Iterator<Entry<Node,List<Cluster>>> iter = Config.Index_table.entrySet().iterator();
+			Iterator<Entry<Node,HashSet<Cluster>>> iter = Config.Index_table.entrySet().iterator();
 			while (iter.hasNext()) 
 			{
 				@SuppressWarnings("rawtypes")
@@ -171,16 +170,19 @@ public class Input_Output {
 				
 				Node key = (Node) entry.getKey();
 				@SuppressWarnings("unchecked")
-				List<Cluster> val = (List<Cluster>) entry.getValue();//取出Node成员
-
+				HashSet<Cluster> val = (HashSet<Cluster>) entry.getValue();//取出Node成员
+			
+				Object[] toArray =  val.toArray();
+				
 				writer.write(key.getName()+"所在集群为：");
 					
 				int i=0;
-				for(i=0;i<val.size()-1;++i)
+				for(i=0;i<toArray.length-1;++i)
 				{
-					writer.write("\""+val.get(i).getClusterNo()+"\""+",");
+					//writer.write("\""+val.get(i).getClusterNo()+"\""+",");
+					writer.write("\""+((Cluster) toArray[i]).getClusterNo()+"\""+",");
 				}
-				writer.write("\""+val.get(i).getClusterNo()+"\"");
+				writer.write("\""+((Cluster) toArray[i]).getClusterNo()+"\"");
 				writer.write("\n");
 			}
 			writer.close();
