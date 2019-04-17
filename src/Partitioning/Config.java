@@ -28,7 +28,7 @@ public class Config {
 	////地址
 	public static String root_path=".//Database//"; //根目录
 	//原始数据读取地址
-	public static String read_csv_filePath=root_path+database+".csv";//原始数据csv文件地址
+	public static String read_csv_filePath=root_path+"Database_"+database+"//"+database+".csv";//原始数据csv文件地址
 	//日志保存地址
 	public static String spo_store_filePath=root_path+"Database_"+database+"//Log//spo_dataset.txt";//spo三元组存储地址
 	public static String hashmap_store_filePath=root_path+"Database_"+database+"//Log";//节点密度数据存储地址
