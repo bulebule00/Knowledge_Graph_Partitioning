@@ -1,0 +1,9 @@
+Name,ClusterNo,Property,Degree,Visited,Border
+"""I""",3,高密度,5,true,false
+"""H""",3,边界,3,true,true
+"""J""",3,保护,1,true,false
+"""K""",3,保护,1,true,false
+"""L""",3,保护,1,true,false
+"""M""",3,保护,1,true,false
+"""G""",1,边界,3,true,true
+"""N""",2,边界,3,true,true

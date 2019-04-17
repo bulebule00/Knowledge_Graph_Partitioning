@@ -1,0 +1,17 @@
+Name,ClusterNo,Property,Degree,Visited,Border
+"""D""",1,保护,1,true,false
+"""C""",1,保护,1,true,false
+"""B""",1,保护,1,true,false
+"""A""",1,高密度,5,true,false
+"""P""",2,保护,1,true,false
+"""O""",2,保护,1,true,false
+"""N""",2,保护,1,true,false
+"""M""",2,保护,1,true,false
+"""L""",2,高密度,5,true,false
+"""K""",2,边界,2,true,true
+"""J""",1,噪声,2,true,false
+"""I""",1,噪声,3,true,true
+"""H""",1,噪声,2,true,false
+"""G""",1,噪声,3,true,false
+"""F""",1,边界,2,true,false
+"""E""",1,保护,1,true,false

@@ -1,0 +1,15 @@
+Name,ClusterNo,Property,Degree,Visited,Border
+"""智善""",3,边界,2,true,false
+"""智通""",3,边界,2,true,false
+"""胡老爷太太""",3,保护,1,true,false
+"""秦钟""",3,噪声,2,true,false
+"""胡老爷公子""",3,保护,1,true,false
+"""张金哥""",3,噪声,2,true,true
+"""智能儿""",3,边界,3,true,false
+"""秦业""",3,噪声,2,true,true
+"""净虚""",3,高密度,11,true,false
+"""于老爷""",3,保护,1,true,false
+"""秦可卿""",4,噪声,4,true,true
+"""胡老爷""",3,保护,1,true,false
+"""张大财主""",3,边界,2,true,false
+"""李公子""",0,噪声,2,true,false

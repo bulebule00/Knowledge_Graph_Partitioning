@@ -1,0 +1,17 @@
+Name,ClusterNo,Property,Degree,Visited,Border
+"""珍珠""",5,保护,1,true,false
+"""玻璃""",5,保护,1,true,false
+"""傻大姐""",5,边界,2,true,false
+"""傻大姐的娘""",5,噪声,1,true,false
+"""文官""",5,保护,1,true,false
+"""史鼐""",0,噪声,1,true,false
+"""鹦鹉""",5,保护,1,true,false
+"""翡翠""",5,保护,1,true,false
+"""金鸳鸯""",5,保护,1,true,false
+"""史湘云爷爷""",5,噪声,4,true,true
+"""史鼎""",5,噪声,2,true,true
+"""史侯""",5,边界,2,true,false
+"""湘云母""",0,噪声,2,true,false
+"""史鼎的夫人""",0,噪声,1,true,false
+"""贾母""",5,高密度,10,true,false
+"""琥珀""",5,保护,1,true,false
