@@ -8,9 +8,12 @@
 
 ./Database 目录存放数据集
 
-./Neo4j 实现数据可视化
-
 ./Image 存放readme中的相关图片
+
+./Tools  存放相关工具代码
+
+- `Neo4j ` 使用py2neo连接Neo4j图数据库，实现知识图谱可视化。
+- `RDF ` 使用JENA实现RDF数据解析。
 
 ./src 为源代码目录，有两个文件夹：
 
