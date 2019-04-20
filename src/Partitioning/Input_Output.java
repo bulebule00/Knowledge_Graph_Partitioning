@@ -162,19 +162,19 @@ public class Input_Output {
 			//BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Config.Index_tablePath)));
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(Config.Index_tablePath)),"utf-8"));
 			//遍历索引表
-			Iterator<Entry<Node,HashSet<Cluster>>> iter = Config.Index_table.entrySet().iterator();
+			Iterator<Entry<String,HashSet<Cluster>>> iter = Config.Index_table.entrySet().iterator();
 			while (iter.hasNext()) 
 			{
 				@SuppressWarnings("rawtypes")
 				Map.Entry entry = (Map.Entry) iter.next();
 				
-				Node key = (Node) entry.getKey();
+				String key = (String) entry.getKey();
 				@SuppressWarnings("unchecked")
 				HashSet<Cluster> val = (HashSet<Cluster>) entry.getValue();//取出Node成员
 			
 				Object[] toArray =  val.toArray();
 				
-				writer.write(key.getName()+"所在集群为：");
+				writer.write(key+"所在集群为：");
 					
 				int i=0;
 				for(i=0;i<toArray.length-1;++i)

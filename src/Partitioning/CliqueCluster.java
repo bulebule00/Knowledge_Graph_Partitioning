@@ -331,7 +331,7 @@ public class CliqueCluster {
 		{
 			start.setBorder(); 
 			writer.write(Config.df.format(new Date())+"节点"+start.getName()+"是真边界点\n");
-			Config.Index_table.put(start, linked_clusters); //如果这个点要切，就把这个点和与他相关的cluster加入索引map.
+			Config.Index_table.put(start.getName(), linked_clusters); //如果这个点要切，就把这个点和与他相关的cluster加入索引map.
 			return true;
 			/*if (friend_is_border_Num!=friend_is_differ_cluster_Num) //是边界
 			{
