@@ -10,37 +10,37 @@ import java.util.List;
 
 
 public class Find {
-	
 
 
-	public static List<String> one_jump(String start)  //²éÕÒÒ»Ìø·¶Î§ÄÚµÄ½Úµã
+
+	public static List<String> one_jump(String start)  //æŸ¥æ‰¾ä¸€è·³èŒƒå›´å†…çš„èŠ‚ç‚¹
 	{
-		//List<Map.Entry<String, Integer>> list=new ArrayList<>(); //ÓÃÓÚ´æ·ÅÃ¿¸ömap
+		//List<Map.Entry<String, Integer>> list=new ArrayList<>(); //ç”¨äºå­˜æ”¾æ¯ä¸ªmap
 
-		List<String> list=new ArrayList<>(); //´æ·ÅÈıÔª×é
+		List<String> list=new ArrayList<>(); //å­˜æ”¾ä¸‰å…ƒç»„
 
-		System.out.println("--------¿ªÊ¼²éÑ¯ÒÔ"+start+"ÎªÆğÊ¼µã,Ò»Ìø·¶Î§ÄÚµÄ½Úµã--------");
+		System.out.println("--------å¼€å§‹æŸ¥è¯¢ä»¥"+start+"ä¸ºèµ·å§‹ç‚¹,ä¸€è·³èŒƒå›´å†…çš„èŠ‚ç‚¹--------");
 		Iterator<String> it=Config.data.iterator();
-		it.next(); //Ìø¹ı±íÍ·
+		it.next(); //è·³è¿‡è¡¨å¤´
 
 		while(it.hasNext())
 		{
-			String line=it.next();//È¡³öÒ»¸öÈıÔª×é	
-		//	System.out.println(line);  
-			List<String> result = Arrays.asList(line.split(",")); 
-			
-			//¶ÁÈ¡spoÈıÔª×é¡£ ÒÔÏÂ´úÂë¸ù¾İÊı¾İ¼¯ÄÚÈİ½øĞĞĞŞ¸Ä
-			Iterator<String>list_it=result.iterator();		
+			String line=it.next();//å–å‡ºä¸€ä¸ªä¸‰å…ƒç»„
+		//	System.out.println(line);
+			List<String> result = Arrays.asList(line.split(","));
+
+			//è¯»å–spoä¸‰å…ƒç»„ã€‚ ä»¥ä¸‹ä»£ç æ ¹æ®æ•°æ®é›†å†…å®¹è¿›è¡Œä¿®æ”¹
+			Iterator<String>list_it=result.iterator();
 			String s=list_it.next();
 			String o=list_it.next();
-			list_it.next();//Ìø¹ıÓ¢ÎÄlabel		
-			String p=list_it.next();	
+			list_it.next();//è·³è¿‡è‹±æ–‡label
+			String p=list_it.next();
 			//System.out.println("s=="+s+"  "+"start=="+start);
-			//Ñ°ÕÒ¾àÀëstart½ÚµãÒ»Ìø¾àÀëµÄ½Úµã
+			//å¯»æ‰¾è·ç¦»startèŠ‚ç‚¹ä¸€è·³è·ç¦»çš„èŠ‚ç‚¹
 			if(s.equals(start)==true || o.equals(start)==true)
 			{
 				list.add((String)(s+","+p+","+o));
-				
+
 				//System.out.println("s=="+s+"  "+"start=="+start);
 				//System.out.println(o);
 			}
@@ -52,13 +52,13 @@ public class Find {
 		{
 			System.out.println(it1.next());
 		}
-		
-		System.out.println("ÒÔ"+start+"ÎªÖĞĞÄ,Ò»Ìø·¶Î§ÄÚµÄ½ÚµãÓĞ"+list.size()+"¸ö");
-		System.out.println("--------ÒÔ"+start+"ÎªÖĞĞÄ,Ò»Ìø·¶Î§ÄÚµÄ½Úµã²éÑ¯Íê±Ï--------");
-		return list;			
+
+		System.out.println("ä»¥"+start+"ä¸ºä¸­å¿ƒ,ä¸€è·³èŒƒå›´å†…çš„èŠ‚ç‚¹æœ‰"+list.size()+"ä¸ª");
+		System.out.println("--------ä»¥"+start+"ä¸ºä¸­å¿ƒ,ä¸€è·³èŒƒå›´å†…çš„èŠ‚ç‚¹æŸ¥è¯¢å®Œæ¯•--------");
+		return list;
 	}
 
 
-	
+
 
 }

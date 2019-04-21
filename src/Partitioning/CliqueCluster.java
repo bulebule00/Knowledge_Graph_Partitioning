@@ -16,66 +16,66 @@ import java.util.Map.Entry;
 import java.util.Queue;
 public class CliqueCluster {
 
-	//private static List<Cluster> clusters;//ÓÃÓÚ´æ´¢cluster¡£
-	private static int clusterNo=0; //Õı³£Çé¿ö´Ó1¿ªÊ¼£¬Èç¹û³öÏÖ±ß½çµã ÔëÉùµã Ôò¹éÔÚclusterNo 0 ÖĞ¡£
-	private static int nodeNo=0; //±íÊ¾±éÀúµÄhashmap´ÎĞò¡£
-	private static List<Node> noise_Node; //´æ·ÅÔëÉùµãµÄlist
-	private static List<Node> border_Node; //´æ·Å±ß½çµãµÄlist
-	private static List<Node> noise_process_Node; //´¦ÀíÔëÉùÊ±±»ĞŞ¸ÄÁË±ê¼ÇµÄ½Úµã¡£
+	//private static List<Cluster> clusters;//ç”¨äºå­˜å‚¨clusterã€‚
+	private static int clusterNo=0; //æ­£å¸¸æƒ…å†µä»1å¼€å§‹ï¼Œå¦‚æœå‡ºç°è¾¹ç•Œç‚¹ å™ªå£°ç‚¹ åˆ™å½’åœ¨clusterNo 0 ä¸­ã€‚
+	private static int nodeNo=0; //è¡¨ç¤ºéå†çš„hashmapæ¬¡åºã€‚
+	private static List<Node> noise_Node; //å­˜æ”¾å™ªå£°ç‚¹çš„list
+	private static List<Node> border_Node; //å­˜æ”¾è¾¹ç•Œç‚¹çš„list
+	private static List<Node> noise_process_Node; //å¤„ç†å™ªå£°æ—¶è¢«ä¿®æ”¹äº†æ ‡è®°çš„èŠ‚ç‚¹ã€‚
 
 	public static void do_clique() throws IOException
 	{
 
-		BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Config.cliquelog_filePath)));//Ğ´ÈÕÖ¾
+		BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Config.cliquelog_filePath)));//å†™æ—¥å¿—
 
-		////////////////////³õÊ¼»¯ºÍºËĞÄ³ÌĞò////////////////////
-		System.out.println("--------¿ªÊ¼½øĞĞClique¾ÛÀà--------");
-		writer.write("--------¿ªÊ¼½øĞĞClique¾ÛÀà--------\n\n");
+		////////////////////åˆå§‹åŒ–å’Œæ ¸å¿ƒç¨‹åº////////////////////
+		System.out.println("--------å¼€å§‹è¿›è¡ŒCliqueèšç±»--------");
+		writer.write("--------å¼€å§‹è¿›è¡ŒCliqueèšç±»--------\n\n");
 
-		initialize(writer);//³õÊ¼»¯
-		search_all_hash(writer);//±éÀúhashmap
+		initialize(writer);//åˆå§‹åŒ–
+		search_all_hash(writer);//éå†hashmap
 
-		 //////////////////////ÔëÉù////////////////////////////
-        System.out.println("--------¿ªÊ¼´¦ÀíÔëÉùµã--------");
-        writer.write("\n--------¿ªÊ¼´¦ÀíÔëÉùµã--------\n");
+		 //////////////////////å™ªå£°////////////////////////////
+        System.out.println("--------å¼€å§‹å¤„ç†å™ªå£°ç‚¹--------");
+        writer.write("\n--------å¼€å§‹å¤„ç†å™ªå£°ç‚¹--------\n");
 
         deal_with_noise(writer);
 
-        System.out.println("--------ÔëÉùµã´¦Àí½áÊø--------\n");
-        writer.write("--------ÔëÉùµã´¦Àí½áÊø--------\n\n");
+        System.out.println("--------å™ªå£°ç‚¹å¤„ç†ç»“æŸ--------\n");
+        writer.write("--------å™ªå£°ç‚¹å¤„ç†ç»“æŸ--------\n\n");
 
-        //////////////////////±ß½ç/////////////////////////////
-        System.out.println("--------¿ªÊ¼´¦Àí±ß½çµã--------");
-        writer.write("--------¿ªÊ¼´¦Àí±ß½çµã--------\n");
+        //////////////////////è¾¹ç•Œ/////////////////////////////
+        System.out.println("--------å¼€å§‹å¤„ç†è¾¹ç•Œç‚¹--------");
+        writer.write("--------å¼€å§‹å¤„ç†è¾¹ç•Œç‚¹--------\n");
 
         int n=deal_with_border(writer);
 
-        System.out.println("ÒÑ´¦Àí"+n+"¸ö±ß½çµã");
-        writer.write("ÒÑ´¦Àí"+n+"¸ö±ß½çµã\n");
-        System.out.println("--------±ß½çµã´¦Àí½áÊø--------\n");
-        writer.write("--------±ß½çµã´¦Àí½áÊø--------\n\n");
-        /////////////////////////Í³¼ÆĞÅÏ¢////////////////////////////
+        System.out.println("å·²å¤„ç†"+n+"ä¸ªè¾¹ç•Œç‚¹");
+        writer.write("å·²å¤„ç†"+n+"ä¸ªè¾¹ç•Œç‚¹\n");
+        System.out.println("--------è¾¹ç•Œç‚¹å¤„ç†ç»“æŸ--------\n");
+        writer.write("--------è¾¹ç•Œç‚¹å¤„ç†ç»“æŸ--------\n\n");
+        /////////////////////////ç»Ÿè®¡ä¿¡æ¯////////////////////////////
 
-		System.out.println("--------Clique¾ÛÀàĞÅÏ¢ÈçÏÂ--------");
-		writer.write("--------Clique¾ÛÀàĞÅÏ¢ÈçÏÂ--------\n");
-		System.out.println("¹²²úÉú "+clusterNo+" ¸öÀà");
-		writer.write("¹²²úÉú "+clusterNo+" ¸öÀà\n");
-		System.out.println("¹²±éÀú "+nodeNo+" ¸ö½áµã");
-		writer.write("¹²±éÀú "+nodeNo+" ¸ö½áµã\n");
-		System.out.println("ĞèÇĞ¸î "+border_Node.size()+" ¸ö±ßÔµ½áµã");
-		writer.write("ĞèÇĞ¸î "+border_Node.size()+" ¸ö±ßÔµ½áµã\n");
-		System.out.println("Clique¾ÛÀàÈÕÖ¾ÒÑĞ´Èë"+Config.cliquelog_filePath);
-		 /////////////////////½áÊø///////////////////////////////
+		System.out.println("--------Cliqueèšç±»ä¿¡æ¯å¦‚ä¸‹--------");
+		writer.write("--------Cliqueèšç±»ä¿¡æ¯å¦‚ä¸‹--------\n");
+		System.out.println("å…±äº§ç”Ÿ "+clusterNo+" ä¸ªç±»");
+		writer.write("å…±äº§ç”Ÿ "+clusterNo+" ä¸ªç±»\n");
+		System.out.println("å…±éå† "+nodeNo+" ä¸ªç»“ç‚¹");
+		writer.write("å…±éå† "+nodeNo+" ä¸ªç»“ç‚¹\n");
+		System.out.println("éœ€åˆ‡å‰² "+border_Node.size()+" ä¸ªè¾¹ç¼˜ç»“ç‚¹");
+		writer.write("éœ€åˆ‡å‰² "+border_Node.size()+" ä¸ªè¾¹ç¼˜ç»“ç‚¹\n");
+		System.out.println("Cliqueèšç±»æ—¥å¿—å·²å†™å…¥"+Config.cliquelog_filePath);
+		 /////////////////////ç»“æŸ///////////////////////////////
 
-		System.out.println("--------Clique¾ÛÀà½áÊø--------\n");
-		writer.write("--------Clique¾ÛÀà½áÊø--------\n\n");
+		System.out.println("--------Cliqueèšç±»ç»“æŸ--------\n");
+		writer.write("--------Cliqueèšç±»ç»“æŸ--------\n\n");
         writer.close();
 	}
 
 	private static void search_all_hash (BufferedWriter writer) throws IOException
 	{
-		Cluster clu = new Cluster(clusterNo); //½¨Ò»¸öÔëÉù¼¯Èº0¡£
-		HashSet<Node> nod=new HashSet<Node>();// ´æ´¢ÊôÓÚÔëÉù¼¯ÈºµÄµãĞÅÏ¢
+		Cluster clu = new Cluster(clusterNo); //å»ºä¸€ä¸ªå™ªå£°é›†ç¾¤0ã€‚
+		HashSet<Node> nod=new HashSet<Node>();// å­˜å‚¨å±äºå™ªå£°é›†ç¾¤çš„ç‚¹ä¿¡æ¯
 		Config.clusters.add(clu);
 		Config.clusters_node.add(nod);
 
@@ -84,27 +84,27 @@ public class CliqueCluster {
 			@SuppressWarnings("rawtypes")
 			Map.Entry entry = (Map.Entry) iter.next();
 			//Object key = entry.getKey();
-			Node val = (Node) entry.getValue();//È¡³öNode³ÉÔ±
+			Node val = (Node) entry.getValue();//å–å‡ºNodeæˆå‘˜
 			nodeNo++;
 			if (val.getVisited()==false )
 			{
 				if (val.getDegree()>= Config.densityThreshold)
 				{
 					//System.out.println(((Node) val).getDegree());
-					clusterNo++; //ĞÂµÄ¼¯Èº³öÏÖÁË
+					clusterNo++; //æ–°çš„é›†ç¾¤å‡ºç°äº†
 
-					writer.write("\n"+Config.df.format(new Date())+"----´Ó½Úµã" + nodeNo+" "+val.getName()+"¿ªÊ¼½øĞĞClique¾ÛÀà----\n");
+					writer.write("\n"+Config.df.format(new Date())+"----ä»èŠ‚ç‚¹" + nodeNo+" "+val.getName()+"å¼€å§‹è¿›è¡ŒCliqueèšç±»----\n");
 
 					bfs(val,writer);
 
-					writer.write(Config.df.format(new Date())+"----½Úµã" + val.getName()+"¾ÛÀà½áÊø----\n\n");
+					writer.write(Config.df.format(new Date())+"----èŠ‚ç‚¹" + val.getName()+"èšç±»ç»“æŸ----\n\n");
 				}
 				else if(val.getDegree()< Config.densityThreshold)
 				{
-					//ÃÜ¶ÈÃ»ÓĞ´ïµ½ãĞÖµµÄµã£¬ £¨¿ÉÄÜ±»±£»¤ÁË£¬Ò²¿ÉÄÜ×÷ÎªÔëÉù£©
-					val.setClusterNo(0);//ÔİÊ±ÉèÎªÔëÉùµã£¬(¿ÉÄÜÔÚbfsÖĞ¾Í±»±£»¤ÆğÀ´ÁË)
+					//å¯†åº¦æ²¡æœ‰è¾¾åˆ°é˜ˆå€¼çš„ç‚¹ï¼Œ ï¼ˆå¯èƒ½è¢«ä¿æŠ¤äº†ï¼Œä¹Ÿå¯èƒ½ä½œä¸ºå™ªå£°ï¼‰
+					val.setClusterNo(0);//æš‚æ—¶è®¾ä¸ºå™ªå£°ç‚¹ï¼Œ(å¯èƒ½åœ¨bfsä¸­å°±è¢«ä¿æŠ¤èµ·æ¥äº†)
 
-					writer.write(Config.df.format(new Date())+"µÍÃÜ¶È "+nodeNo+" £º"+val.getName()+"\n");
+					writer.write(Config.df.format(new Date())+"ä½å¯†åº¦ "+nodeNo+" ï¼š"+val.getName()+"\n");
 				}
 			}
 		}
@@ -114,9 +114,9 @@ public class CliqueCluster {
 	private static void bfs (Node start_node,BufferedWriter writer) throws IOException
 	{
 		Queue<Node> q=new LinkedList<>();
-		q.add(start_node);//ÆğÊ¼¶¥µã¼ÓÈë¶ÓÁĞ
+		q.add(start_node);//èµ·å§‹é¡¶ç‚¹åŠ å…¥é˜Ÿåˆ—
 
-		//ĞÂ½¨Ò»¸öcluster(±ß±í)ÒÔ¼°ºÍµãĞÅÏ¢ÁĞ±í£¨¶¥µã±í£©£¬²¢³õÊ¼»¯¡£
+		//æ–°å»ºä¸€ä¸ªcluster(è¾¹è¡¨)ä»¥åŠå’Œç‚¹ä¿¡æ¯åˆ—è¡¨ï¼ˆé¡¶ç‚¹è¡¨ï¼‰ï¼Œå¹¶åˆå§‹åŒ–ã€‚
 		Cluster clu = null;
 		try{
 			clu= Config.clusters.get(clusterNo);
@@ -134,11 +134,11 @@ public class CliqueCluster {
 			nod=new HashSet<Node>();
 		}
 
-		//¿ªÊ¼BFSÑ­»·
+		//å¼€å§‹BFSå¾ªç¯
 	    while(!q.isEmpty())
 	    {
-	        Node top=q.poll();//È¡³ö¶ÓÊ×ÔªËØ
-			//´¦Àíµ±Ç°½Úµã, £¨Ö»ÓĞ¸ßÃÜ¶ÈµãÄÜµ½ÕâÀï½ÓÊÜ´¦Àí£©
+	        Node top=q.poll();//å–å‡ºé˜Ÿé¦–å…ƒç´ 
+			//å¤„ç†å½“å‰èŠ‚ç‚¹, ï¼ˆåªæœ‰é«˜å¯†åº¦ç‚¹èƒ½åˆ°è¿™é‡Œæ¥å—å¤„ç†ï¼‰
 			top.setVisited();
 			top.setClusterNo(clusterNo);
 			top.setPropertyDen();
@@ -146,73 +146,73 @@ public class CliqueCluster {
 			clu.addDensity(top);
 			nod.add(top);
 
-	        writer.write(Config.df.format(new Date())+"¸ßÃÜ "+"£º"+top.getName()+" ¼ÓÈë"+"¼¯Èº"+clu.getClusterNo()+"\n");
+	        writer.write(Config.df.format(new Date())+"é«˜å¯† "+"ï¼š"+top.getName()+" åŠ å…¥"+"é›†ç¾¤"+clu.getClusterNo()+"\n");
 
-	        //×¼±¸ÏÂÒ»Åú½Úµã
+	        //å‡†å¤‡ä¸‹ä¸€æ‰¹èŠ‚ç‚¹
 			List<String> list=top.getList();
 			Iterator<String> it=list.iterator();
 			while(it.hasNext())
 			{
-				String spo=it.next(); //µ±Ç°½Úµã´æ´¢µÄÒ»ÌõspoĞÅÏ¢¡£
-				//writer.write(Config.df.format(new Date())+"ÓëÖ®ÏàÁ¬µÄÓĞ "+spo+"----");
-				//String other=get_another(spo,start.getName());//¶ÁÈ¡spo£¬µÃµ½Óëµ±Ç°½ÚµãÏàÁ¬µÄÁíÒ»¸ö½Úµã
-				String other=get_another(spo,top.getName());//¶ÁÈ¡spo£¬µÃµ½Óëµ±Ç°½ÚµãÏàÁ¬µÄÁíÒ»¸ö½Úµã
-				Node linked_node=Config.subject_object.get(other); //µÃµ½ÓëÖ®ÏàÁ¬µÄ½ÚµãµÄNode
-				//writer.write("Óë"+top.getName()+"ÏàÁ¬µÄnode£º  "+spo+"\n");
+				String spo=it.next(); //å½“å‰èŠ‚ç‚¹å­˜å‚¨çš„ä¸€æ¡spoä¿¡æ¯ã€‚
+				//writer.write(Config.df.format(new Date())+"ä¸ä¹‹ç›¸è¿çš„æœ‰ "+spo+"----");
+				//String other=get_another(spo,start.getName());//è¯»å–spoï¼Œå¾—åˆ°ä¸å½“å‰èŠ‚ç‚¹ç›¸è¿çš„å¦ä¸€ä¸ªèŠ‚ç‚¹
+				String other=get_another(spo,top.getName());//è¯»å–spoï¼Œå¾—åˆ°ä¸å½“å‰èŠ‚ç‚¹ç›¸è¿çš„å¦ä¸€ä¸ªèŠ‚ç‚¹
+				Node linked_node=Config.subject_object.get(other); //å¾—åˆ°ä¸ä¹‹ç›¸è¿çš„èŠ‚ç‚¹çš„Node
+				//writer.write("ä¸"+top.getName()+"ç›¸è¿çš„nodeï¼š  "+spo+"\n");
 				if(linked_node.getVisited()==false )
 				{
-					//Èç¹û±»±£ÁË £¬»òÕß±¾ÉíÃÜ¶È´ïµ½ãĞÖµ£¬¾Í¸øËû¼ÓÈë¶ÓÁĞµÄ»ú»á
+					//å¦‚æœè¢«ä¿äº† ï¼Œæˆ–è€…æœ¬èº«å¯†åº¦è¾¾åˆ°é˜ˆå€¼ï¼Œå°±ç»™ä»–åŠ å…¥é˜Ÿåˆ—çš„æœºä¼š
 					if ( linked_node.getDegree()==1)
 					{
-						//±£»¤±£»¤
+						//ä¿æŠ¤ä¿æŠ¤
 						linked_node.setVisited();
 						linked_node.setClusterNo(clusterNo);
-						linked_node.setPropertyPro();//±£»¤
+						linked_node.setPropertyPro();//ä¿æŠ¤
 
 						clu.addDensity(linked_node);
 						nod.add(linked_node);
-						//writer.write("ÊÇÒ»¸ö±£»¤½áµã\n");
+						//writer.write("æ˜¯ä¸€ä¸ªä¿æŠ¤ç»“ç‚¹\n");
 
-				        writer.write(Config.df.format(new Date())+"±£»¤ "+"£º"+linked_node.getName()+" ¼ÓÈë"+"¼¯Èº"+clu.getClusterNo()+"\n");
+				        writer.write(Config.df.format(new Date())+"ä¿æŠ¤ "+"ï¼š"+linked_node.getName()+" åŠ å…¥"+"é›†ç¾¤"+clu.getClusterNo()+"\n");
 
 					}
 					else if(linked_node.getDegree()>= Config.densityThreshold)
 					{
-						writer.write("Óë"+top.getName()+"ÏàÁ¬µÄnode£º  "+linked_node.getName()+"Èë¶ÓÁĞ£¡\n");
-						//writer.write("ÊÇÒ»¸ö¸ßÃÜ¶È½áµã\n");
-						//System.out.println("±éÀú "+j+" £º"+top.getName());
-						q.add(linked_node); //¸½½ü½ÚµãÈë¶ÓÁĞ
+						writer.write("ä¸"+top.getName()+"ç›¸è¿çš„nodeï¼š  "+linked_node.getName()+"å…¥é˜Ÿåˆ—ï¼\n");
+						//writer.write("æ˜¯ä¸€ä¸ªé«˜å¯†åº¦ç»“ç‚¹\n");
+						//System.out.println("éå† "+j+" ï¼š"+top.getName());
+						q.add(linked_node); //é™„è¿‘èŠ‚ç‚¹å…¥é˜Ÿåˆ—
 					}
 					else {
-						//ÊÇÒ»¸ö±ê×¼µÄ±ß½çµã£¬ °´ÕÕµãÇĞµÄ·½Ê½£¬ÔÚ¸Ã½Úµã´æ´¢£¬µ«²»×ö½øÒ»²½±éÀú
+						//æ˜¯ä¸€ä¸ªæ ‡å‡†çš„è¾¹ç•Œç‚¹ï¼Œ æŒ‰ç…§ç‚¹åˆ‡çš„æ–¹å¼ï¼Œåœ¨è¯¥èŠ‚ç‚¹å­˜å‚¨ï¼Œä½†ä¸åšè¿›ä¸€æ­¥éå†
 						linked_node.setVisited();
 						linked_node.setClusterNo(clusterNo);
 						linked_node.setPropertyBor();
 
-						border_Node.add(linked_node);//¼ÓÈë ±ß½çµãÁĞ±í
+						border_Node.add(linked_node);//åŠ å…¥ è¾¹ç•Œç‚¹åˆ—è¡¨
 						clu.addDensity(linked_node);
 						nod.add(linked_node);
 
-				        writer.write(Config.df.format(new Date())+"±ß½ç "+"£º"+linked_node.getName()+" ¼ÓÈë"+"¼¯Èº"+clu.getClusterNo()+"\n");
+				        writer.write(Config.df.format(new Date())+"è¾¹ç•Œ "+"ï¼š"+linked_node.getName()+" åŠ å…¥"+"é›†ç¾¤"+clu.getClusterNo()+"\n");
 					}
 				}
 				else
 				{
-					writer.write("Óë"+top.getName()+"ÏàÁ¬µÄnode£º  "+linked_node.getName()+"ÊÇ¸öÆæ¹ÖµÄµã\n");
-					//writer.write("ÊÇÒ»¸ö±ßÔµ½áµã\n");
-					///ÕÒµ½ÁË±ß½ç½ÚµãÊôÓÚÁíÒ»¸ö¾ÛÀàµÄµã£¬
+					writer.write("ä¸"+top.getName()+"ç›¸è¿çš„nodeï¼š  "+linked_node.getName()+"æ˜¯ä¸ªå¥‡æ€ªçš„ç‚¹\n");
+					//writer.write("æ˜¯ä¸€ä¸ªè¾¹ç¼˜ç»“ç‚¹\n");
+					///æ‰¾åˆ°äº†è¾¹ç•ŒèŠ‚ç‚¹å±äºå¦ä¸€ä¸ªèšç±»çš„ç‚¹ï¼Œ
 					//linked_node.setPropertyBor();
 					//BorderNum++;
-					//System.out.println("·¢ÏÖÁËÒ»¸öÆæ¹ÖµÄµã¡£¡£");
-					//°ÑËûµÄ¼¯ÈººÅ¹éÎª999£¬ ²»´¦ÀíËü
+					//System.out.println("å‘ç°äº†ä¸€ä¸ªå¥‡æ€ªçš„ç‚¹ã€‚ã€‚");
+					//æŠŠä»–çš„é›†ç¾¤å·å½’ä¸º999ï¼Œ ä¸å¤„ç†å®ƒ
 					//linked_node.setClusterNo(999);
-					//¡¾×îĞÂ¡¿£º ÔİÊ±²»´¦ÀíÕâÖÖµã£¬Áô¸øºóÃæµÄÔëÉùºÍ±ß½çµã´¦Àí³ÌĞò¡£
+					//ã€æœ€æ–°ã€‘ï¼š æš‚æ—¶ä¸å¤„ç†è¿™ç§ç‚¹ï¼Œç•™ç»™åé¢çš„å™ªå£°å’Œè¾¹ç•Œç‚¹å¤„ç†ç¨‹åºã€‚
 				}
 			}
 	      }
-	    Config.clusters.add(clu); //½«clu¼ÓÈë¼¯ÈºlistÖĞ
-	    Config.clusters_node.add(nod); //½«¸Ã¼¯ÈºµÄ¶¥µã±í¼ÓÈë¶¥µã±ílistÖĞ
-	    writer.write(Config.df.format(new Date())+"¾ÛÀàºÅ:"+clu.getClusterNo()+"  ¹²ÓĞ"+clu.getNodeNum()+"¸öµã\n");
+	    Config.clusters.add(clu); //å°†cluåŠ å…¥é›†ç¾¤listä¸­
+	    Config.clusters_node.add(nod); //å°†è¯¥é›†ç¾¤çš„é¡¶ç‚¹è¡¨åŠ å…¥é¡¶ç‚¹è¡¨listä¸­
+	    writer.write(Config.df.format(new Date())+"èšç±»å·:"+clu.getClusterNo()+"  å…±æœ‰"+clu.getNodeNum()+"ä¸ªç‚¹\n");
 	 }
 
 
@@ -221,24 +221,24 @@ public class CliqueCluster {
 	{
 		collect_noise();
 
-		int true_num=0;//ÕæÔëÉùµã¸öÊı
-		int false_num=0; //Î±ÔëÉùµã¸öÊı
+		int true_num=0;//çœŸå™ªå£°ç‚¹ä¸ªæ•°
+		int false_num=0; //ä¼ªå™ªå£°ç‚¹ä¸ªæ•°
 
-		System.out.println("¹²ÓĞ"+noise_Node.size()+"¸öÔëÉùµã");
-		writer.write("¹²ÓĞ"+noise_Node.size()+"¸öÔëÉùµã\n\n");
-		//1. ÏÈ¶ÔÃ¿¸öµã×öÉîËÑ£¬ÕÒµ½×î½üµÄcluster¼ÓÈë¡£
+		System.out.println("å…±æœ‰"+noise_Node.size()+"ä¸ªå™ªå£°ç‚¹");
+		writer.write("å…±æœ‰"+noise_Node.size()+"ä¸ªå™ªå£°ç‚¹\n\n");
+		//1. å…ˆå¯¹æ¯ä¸ªç‚¹åšæ·±æœï¼Œæ‰¾åˆ°æœ€è¿‘çš„clusteråŠ å…¥ã€‚
 
-		//±éÀúÔëÉùµãlist
+		//éå†å™ªå£°ç‚¹list
 		Iterator<Node> it=noise_Node.iterator();
 		while(it.hasNext())
 		{
 
 			Node start=it.next();
-			writer.write(Config.df.format(new Date())+"´¦ÀíÔëÉùµã"+start.getName()+"\n");
-			//System.out.println(Config.df.format(new Date())+"´¦ÀíÔëÉùµã"+start.getName());
-			int n = bfs_noise(start); //n²»ÊÇ0 Ôò²»ÊÇÔëÒôµã£¬µ«¿ÉÄÜÊÇ±ß½çµã
+			writer.write(Config.df.format(new Date())+"å¤„ç†å™ªå£°ç‚¹"+start.getName()+"\n");
+			//System.out.println(Config.df.format(new Date())+"å¤„ç†å™ªå£°ç‚¹"+start.getName());
+			int n = bfs_noise(start); //nä¸æ˜¯0 åˆ™ä¸æ˜¯å™ªéŸ³ç‚¹ï¼Œä½†å¯èƒ½æ˜¯è¾¹ç•Œç‚¹
 			if(n==0) {
-				//ÊÇÒ»¸ö¹ÂµºµÄÔëÉùµã¡£ÎŞ·¨´¦Àí
+				//æ˜¯ä¸€ä¸ªå­¤å²›çš„å™ªå£°ç‚¹ã€‚æ— æ³•å¤„ç†
 				true_num++;
 			}
 			else {
@@ -247,18 +247,18 @@ public class CliqueCluster {
 				border_Node.add(start);
 				it.remove();
 			}
-			start.setClusterNo(n); //¸øËûÉèÖÃbfs»ñµÃµÄ¼¯ÈººÅ
-			Config.clusters.get(n).addDensity(start);  //¸üĞÂcluster
+			start.setClusterNo(n); //ç»™ä»–è®¾ç½®bfsè·å¾—çš„é›†ç¾¤å·
+			Config.clusters.get(n).addDensity(start);  //æ›´æ–°cluster
 			Config.clusters_node.get(n).add(start);
-			writer.write(Config.df.format(new Date())+"¾àÀë×î½üµÄ¾ÛÀàºÅÊÇ"+n+"\n\n");
-		//	System.out.println(Config.df.format(new Date())+"¾àÀëÔëÉùµã"+start.getName() +"×î½üµÄ¾ÛÀàºÅÊÇ"+n);
+			writer.write(Config.df.format(new Date())+"è·ç¦»æœ€è¿‘çš„èšç±»å·æ˜¯"+n+"\n\n");
+		//	System.out.println(Config.df.format(new Date())+"è·ç¦»å™ªå£°ç‚¹"+start.getName() +"æœ€è¿‘çš„èšç±»å·æ˜¯"+n);
 
 
 			set_node_visited(noise_process_Node);
 		}
 
-        System.out.println("ÆäÖĞÓĞ"+true_num+"¸öÕæÔëÉùµã,ÒÑ´¦Àí"+false_num+"¸öÎ±ÔëÉùµã");
-        writer.write("ÒÑ´¦Àí"+true_num+"¸öÕæÔëÉùµã,"+false_num+"¸öÎ±ÔëÉùµã\n");
+        System.out.println("å…¶ä¸­æœ‰"+true_num+"ä¸ªçœŸå™ªå£°ç‚¹,å·²å¤„ç†"+false_num+"ä¸ªä¼ªå™ªå£°ç‚¹");
+        writer.write("å·²å¤„ç†"+true_num+"ä¸ªçœŸå™ªå£°ç‚¹,"+false_num+"ä¸ªä¼ªå™ªå£°ç‚¹\n");
 		//return num;
 	}
 
@@ -267,17 +267,17 @@ public class CliqueCluster {
 		int n=0;
 		int true_border=0;
 		int false_border=0;
-		System.out.println("¹²ÓĞ"+border_Node.size()+"¸öÒÉËÆ±ß½çµã");
-		writer.write("¹²ÓĞ"+border_Node.size()+"¸öÒÉËÆ±ß½çµã\n\n");
+		System.out.println("å…±æœ‰"+border_Node.size()+"ä¸ªç–‘ä¼¼è¾¹ç•Œç‚¹");
+		writer.write("å…±æœ‰"+border_Node.size()+"ä¸ªç–‘ä¼¼è¾¹ç•Œç‚¹\n\n");
 		Iterator<Node> it=border_Node.iterator();
 		while (it.hasNext())
 		{
 			n++;
 			Node start=it.next();
-			boolean true_false = deal_one_border_node(start,writer); //ÅĞ¶ÏÒ»¸öÒÉËÆ±ß½çµãÊÇ·ñĞèÒªÇĞ¸î
+			boolean true_false = deal_one_border_node(start,writer); //åˆ¤æ–­ä¸€ä¸ªç–‘ä¼¼è¾¹ç•Œç‚¹æ˜¯å¦éœ€è¦åˆ‡å‰²
 			if(true_false == false)
 			{
-				it.remove(); //´ÓlistÖĞ°ÑËûÉ¾³ı
+				it.remove(); //ä»listä¸­æŠŠä»–åˆ é™¤
 				false_border++;
 			}
 			else
@@ -285,8 +285,8 @@ public class CliqueCluster {
 				true_border++;
 			}
 		}
-		System.out.println("ÆäÖĞÓĞ"+true_border+"¸öÕæ±ß½çµã,ÒÑ´¦Àí"+false_border+"¸öÎ±±ß½çµã");
-		writer.write("\nÓĞ"+true_border+"¸öÕæ±ß½çµã,"+false_border+"¸öÎ±±ß½çµã\n");
+		System.out.println("å…¶ä¸­æœ‰"+true_border+"ä¸ªçœŸè¾¹ç•Œç‚¹,å·²å¤„ç†"+false_border+"ä¸ªä¼ªè¾¹ç•Œç‚¹");
+		writer.write("\næœ‰"+true_border+"ä¸ªçœŸè¾¹ç•Œç‚¹,"+false_border+"ä¸ªä¼ªè¾¹ç•Œç‚¹\n");
 		return n;
 	}
 
@@ -297,57 +297,57 @@ public class CliqueCluster {
 		//int friend_is_border_Num=0;
 		//int friend_is_differ_cluster_Num=0;
 		boolean is_border=false;
-		HashSet<Cluster> linked_clusters=new HashSet<Cluster>();//±ß½çµãµÄË÷Òı±íÖĞÊ¹ÓÃµÄList
-		linked_clusters.add(Config.clusters.get(start.getClusterNo())); //ÏÈ°Ñµ±Ç°Õâ¸ö½ÚµãµÄcluster´æ½øÈ¥
+		HashSet<Cluster> linked_clusters=new HashSet<Cluster>();//è¾¹ç•Œç‚¹çš„ç´¢å¼•è¡¨ä¸­ä½¿ç”¨çš„List
+		linked_clusters.add(Config.clusters.get(start.getClusterNo())); //å…ˆæŠŠå½“å‰è¿™ä¸ªèŠ‚ç‚¹çš„clusterå­˜è¿›å»
 
-		//ÅĞ¶ÏÊÇ·ñÊÇ±ß½ç
+		//åˆ¤æ–­æ˜¯å¦æ˜¯è¾¹ç•Œ
 		List<String> l=start.getList();
 		Iterator<String> node_iter=l.iterator();
-(		while(node_iter.hasNext())
+		while(node_iter.hasNext())
 		{
-			String spo=node_iter.next(); //µ±Ç°½Úµã´æ´¢µÄÒ»ÌõspoĞÅÏ¢¡£
-			String other=get_another(spo,start.getName());//¶ÁÈ¡spo£¬µÃµ½Óëµ±Ç°½ÚµãÏàÁ¬µÄÁíÒ»¸ö½Úµã
-			Node linked_node=Config.subject_object.get(other); //µÃµ½ÓëÖ®ÏàÁ¬µÄ½ÚµãµÄNode
+			String spo=node_iter.next(); //å½“å‰èŠ‚ç‚¹å­˜å‚¨çš„ä¸€æ¡spoä¿¡æ¯ã€‚
+			String other=get_another(spo,start.getName());//è¯»å–spoï¼Œå¾—åˆ°ä¸å½“å‰èŠ‚ç‚¹ç›¸è¿çš„å¦ä¸€ä¸ªèŠ‚ç‚¹
+			Node linked_node=Config.subject_object.get(other); //å¾—åˆ°ä¸ä¹‹ç›¸è¿çš„èŠ‚ç‚¹çš„Node
 			if(linked_node.getClusterNo() != now_node_clusterNo )
 			{
 				//friend_is_differ_cluster_Num++;
 				is_border=true;
 				linked_clusters.add(Config.clusters.get(linked_node.getClusterNo()));
-				Config.clusters_node.get(now_node_clusterNo).add(linked_node); //¾ÍÔÚµ±Ç°¼¯ÈºµÄnode±íÖĞ¼ÓÈëÆäËû¼¯ÈºµÄ±ßÔµnode
+				Config.clusters_node.get(now_node_clusterNo).add(linked_node); //å°±åœ¨å½“å‰é›†ç¾¤çš„nodeè¡¨ä¸­åŠ å…¥å…¶ä»–é›†ç¾¤çš„è¾¹ç¼˜node
 			}
 			if(linked_node.getIsBorder()==true)
 			{
 				//friend_is_border_Num++;
 			}
-		}		)
-		//ÅĞ¶ÏÊÇ·ñĞèÒªÇĞ¸î
+		}
+		//åˆ¤æ–­æ˜¯å¦éœ€è¦åˆ‡å‰²
 		if(is_border == false)
 		{
-			start.removeBorder();//È¡ÏûËûµÄ±ßÔµ½áµã³ÆºÅ
-			writer.write(Config.df.format(new Date())+"½Úµã"+start.getName()+"ÊÇÎ±±ß½çµã\n");
+			start.removeBorder();//å–æ¶ˆä»–çš„è¾¹ç¼˜ç»“ç‚¹ç§°å·
+			writer.write(Config.df.format(new Date())+"èŠ‚ç‚¹"+start.getName()+"æ˜¯ä¼ªè¾¹ç•Œç‚¹\n");
 			//return false;
 		}
 		if (is_border==true)
 		{
 			start.setBorder();
-			writer.write(Config.df.format(new Date())+"½Úµã"+start.getName()+"ÊÇÕæ±ß½çµã\n");
-			Config.Index_table.put(start.getName(), linked_clusters); //Èç¹ûÕâ¸öµãÒªÇĞ£¬¾Í°ÑÕâ¸öµãºÍÓëËûÏà¹ØµÄcluster¼ÓÈëË÷Òımap.
+			writer.write(Config.df.format(new Date())+"èŠ‚ç‚¹"+start.getName()+"æ˜¯çœŸè¾¹ç•Œç‚¹\n");
+			Config.Index_table.put(start.getName(), linked_clusters); //å¦‚æœè¿™ä¸ªç‚¹è¦åˆ‡ï¼Œå°±æŠŠè¿™ä¸ªç‚¹å’Œä¸ä»–ç›¸å…³çš„clusteråŠ å…¥ç´¢å¼•map.
 			//return true;
-			/*if (friend_is_border_Num!=friend_is_differ_cluster_Num) //ÊÇ±ß½ç
+			/*if (friend_is_border_Num!=friend_is_differ_cluster_Num) //æ˜¯è¾¹ç•Œ
 			{
 				start.setBorder();
-				writer.write(Config.df.format(new Date())+"½Úµã"+start.getName()+"ÊÇÕæ±ß½çµã\n");
-				Config.Index_table.put(start, clu); //Èç¹ûÕâ¸öµãÒªÇĞ£¬¾Í°ÑÕâ¸öµãºÍÓëËûÏà¹ØµÄcluster¼ÓÈëË÷Òımap.
+				writer.write(Config.df.format(new Date())+"èŠ‚ç‚¹"+start.getName()+"æ˜¯çœŸè¾¹ç•Œç‚¹\n");
+				Config.Index_table.put(start, clu); //å¦‚æœè¿™ä¸ªç‚¹è¦åˆ‡ï¼Œå°±æŠŠè¿™ä¸ªç‚¹å’Œä¸ä»–ç›¸å…³çš„clusteråŠ å…¥ç´¢å¼•map.
 				return true;
 			}
-			else  //Î±±ß½ç
+			else  //ä¼ªè¾¹ç•Œ
 			{
-					start.removeBorder();//È¡ÏûËûµÄ±ßÔµ½áµã³ÆºÅ
-					writer.write(Config.df.format(new Date())+"½Úµã"+start.getName()+"ÊÇ±ß½çµã,µ«Ëû²»ĞèÒªÇĞ¸î\n");
+					start.removeBorder();//å–æ¶ˆä»–çš„è¾¹ç¼˜ç»“ç‚¹ç§°å·
+					writer.write(Config.df.format(new Date())+"èŠ‚ç‚¹"+start.getName()+"æ˜¯è¾¹ç•Œç‚¹,ä½†ä»–ä¸éœ€è¦åˆ‡å‰²\n");
 					return false;
 			}*/
 		}
-		return is_border; //Ã»±ØÒª¼Ó¡£¡£µ«ÊÇ²»¼ÓËû»á±¨´íOTZ
+		return is_border; //æ²¡å¿…è¦åŠ ã€‚ã€‚ä½†æ˜¯ä¸åŠ ä»–ä¼šæŠ¥é”™OTZ
 	}
 
 
@@ -355,8 +355,8 @@ public class CliqueCluster {
 
 	{
 		/***
-		 * ¿ÉÒÔÔÚÕâÀï±éÀúÒ»´ÎËùÓĞ±í£¬²»Ö»ÊÇÈ¡³öÔëÉù½Úµã¡£
-		 * or ÔëÉù½Úµã²»Ò»¶¨ÒªÔÚÕâÀï¼ÓÈëlist£¬ÔÚbfsÑ­»·ÖĞ¾Í¿ÉÒÔÊµÏÖÁË
+		 * å¯ä»¥åœ¨è¿™é‡Œéå†ä¸€æ¬¡æ‰€æœ‰è¡¨ï¼Œä¸åªæ˜¯å–å‡ºå™ªå£°èŠ‚ç‚¹ã€‚
+		 * or å™ªå£°èŠ‚ç‚¹ä¸ä¸€å®šè¦åœ¨è¿™é‡ŒåŠ å…¥listï¼Œåœ¨bfså¾ªç¯ä¸­å°±å¯ä»¥å®ç°äº†
 		 */
 		Iterator<Entry<String, Node>> iter = Config.subject_object.entrySet().iterator();
 		while (iter.hasNext())
@@ -364,11 +364,11 @@ public class CliqueCluster {
 			@SuppressWarnings("rawtypes")
 			Map.Entry entry = (Map.Entry) iter.next();
 			//Object key = entry.getKey();
-			Node val = (Node) entry.getValue();//È¡³öNode³ÉÔ±
+			Node val = (Node) entry.getValue();//å–å‡ºNodeæˆå‘˜
 
 			if(val.getClusterNo()==0)
 			{
-				val.setVisited(); //ÕâÑù£¬ËùÓĞµÄ½Úµã¶¼±ê³ÉÁËtrue.
+				val.setVisited(); //è¿™æ ·ï¼Œæ‰€æœ‰çš„èŠ‚ç‚¹éƒ½æ ‡æˆäº†true.
 				noise_Node.add(val);
 			}
 		}
@@ -387,46 +387,46 @@ public class CliqueCluster {
 
 	private static int bfs_noise(Node start_node)
 	{
-		//¶ÔÔëÉùµã×öbfs£¬ÕÒµ½×î½üµÄÓĞ¾ÛÀàºÅµÄ½Úµã£¬·µ»Ø¸Ã¾ÛÀàºÅ¡£
+		//å¯¹å™ªå£°ç‚¹åšbfsï¼Œæ‰¾åˆ°æœ€è¿‘çš„æœ‰èšç±»å·çš„èŠ‚ç‚¹ï¼Œè¿”å›è¯¥èšç±»å·ã€‚
 		Queue<Node> q=new LinkedList<>();
-		q.add(start_node);//ÆğÊ¼¶¥µã¼ÓÈë¶ÓÁĞ
+		q.add(start_node);//èµ·å§‹é¡¶ç‚¹åŠ å…¥é˜Ÿåˆ—
 	    while(!q.isEmpty())
 	    {
-	        Node top=q.poll();//È¡³ö¶ÓÊ×ÔªËØ
-	        top.setUnVisited();//·´Ïò±ê¼Ç£¬²»ĞèÒª·ÃÎÊÔëÉùµã£¬¶øÔëÉùµã¶¼ÊÇfalseµÄ¡£ÆäËûÓĞ¾ÛÀàºÅµÄ½Úµã¶¼ÊÇtrue¡£ËùÒÔ·ÃÎÊµ½trueÊ±ºò°ÑËûÉèÎªfalse¾ÍĞĞÁË¡£
+	        Node top=q.poll();//å–å‡ºé˜Ÿé¦–å…ƒç´ 
+	        top.setUnVisited();//åå‘æ ‡è®°ï¼Œä¸éœ€è¦è®¿é—®å™ªå£°ç‚¹ï¼Œè€Œå™ªå£°ç‚¹éƒ½æ˜¯falseçš„ã€‚å…¶ä»–æœ‰èšç±»å·çš„èŠ‚ç‚¹éƒ½æ˜¯trueã€‚æ‰€ä»¥è®¿é—®åˆ°trueæ—¶å€™æŠŠä»–è®¾ä¸ºfalseå°±è¡Œäº†ã€‚
 	        noise_process_Node.add(top);
 	        if (top.getClusterNo() != 0)
 			{
 				return top.getClusterNo();
 			}
-	        //×¼±¸ÏÂÒ»Åú½Úµã
+	        //å‡†å¤‡ä¸‹ä¸€æ‰¹èŠ‚ç‚¹
 			List<String> list=top.getList();
 			Iterator<String> it=list.iterator();
 			while(it.hasNext())
 			{
-				String spo=it.next(); //µ±Ç°½Úµã´æ´¢µÄÒ»ÌõspoĞÅÏ¢¡£
-				String other=get_another(spo,start_node.getName());//¶ÁÈ¡spo£¬µÃµ½Óëµ±Ç°½ÚµãÏàÁ¬µÄÁíÒ»¸ö½Úµã
-				Node linked_node=Config.subject_object.get(other); //µÃµ½ÓëÖ®ÏàÁ¬µÄ½ÚµãµÄNode
-				if(linked_node.getVisited()==true) //·´Ïò±ê¼Ç´ó·¨ºÃ£¡
+				String spo=it.next(); //å½“å‰èŠ‚ç‚¹å­˜å‚¨çš„ä¸€æ¡spoä¿¡æ¯ã€‚
+				String other=get_another(spo,start_node.getName());//è¯»å–spoï¼Œå¾—åˆ°ä¸å½“å‰èŠ‚ç‚¹ç›¸è¿çš„å¦ä¸€ä¸ªèŠ‚ç‚¹
+				Node linked_node=Config.subject_object.get(other); //å¾—åˆ°ä¸ä¹‹ç›¸è¿çš„èŠ‚ç‚¹çš„Node
+				if(linked_node.getVisited()==true) //åå‘æ ‡è®°å¤§æ³•å¥½ï¼
 				{
 					q.add(linked_node);
 				}
 				//q.add(linked_node);
 			}
 	      }
-	    return 0; //Èç¹ûËûÕæµÄÊÇÒ»¸ö¶ÀÁ¢µÄµã£¬¾Í¹éÔÚ0ÀàÖĞ¡£
+	    return 0; //å¦‚æœä»–çœŸçš„æ˜¯ä¸€ä¸ªç‹¬ç«‹çš„ç‚¹ï¼Œå°±å½’åœ¨0ç±»ä¸­ã€‚
 	}
 
 	public static String get_another(String spo,String match)
 	{
 	/***
-	 * ÒÑÖªspo ºÍÆäÖĞµÄs»òo£¬·µ»ØÁíÒ»¸ö±¾Ìå
+	 * å·²çŸ¥spo å’Œå…¶ä¸­çš„sæˆ–oï¼Œè¿”å›å¦ä¸€ä¸ªæœ¬ä½“
 	 */
 		List<String> result = Arrays.asList(spo.split(","));
-		//¶ÁÈ¡spoÈıÔª×é¡£ ÒÔÏÂ´úÂë¸ù¾İÊı¾İ¼¯ÄÚÈİ½øĞĞĞŞ¸Ä
+		//è¯»å–spoä¸‰å…ƒç»„ã€‚ ä»¥ä¸‹ä»£ç æ ¹æ®æ•°æ®é›†å†…å®¹è¿›è¡Œä¿®æ”¹
 		Iterator<String>list_it=result.iterator();
 		String s=list_it.next();
-		list_it.next();//Ìø¹ıÓ¢ÎÄlabel
+		list_it.next();//è·³è¿‡è‹±æ–‡label
 		String o=list_it.next();
 
 		if(s.equals(match))
@@ -439,18 +439,18 @@ public class CliqueCluster {
 	private static void initialize(BufferedWriter writer) throws IOException
 	{
 
-		//Îªnoise_node½¨Ò»¸ölist
+		//ä¸ºnoise_nodeå»ºä¸€ä¸ªlist
 		noise_Node=new ArrayList<Node>();
-		//Îªborder_node½¨Ò»¸ölist
+		//ä¸ºborder_nodeå»ºä¸€ä¸ªlist
 		border_Node=new ArrayList<Node>();
 
 		noise_process_Node=new ArrayList<Node>();
 
-		//¼ÆËãÃÜ¶ÈãĞÖµ
+		//è®¡ç®—å¯†åº¦é˜ˆå€¼
 		//int num=Config.list_so.get(Config.list_so.size()/10).getValue().getDegree();
 		//Config.densityThreshold = num>1 ? num:2;
-		System.out.println("ÃÜ¶ÈãĞÖµ = "+Config.densityThreshold);
-		writer.write(Config.df.format(new Date())+"ÃÜ¶ÈãĞÖµ = "+Config.densityThreshold+"\n\n");
+		System.out.println("å¯†åº¦é˜ˆå€¼ = "+Config.densityThreshold);
+		writer.write(Config.df.format(new Date())+"å¯†åº¦é˜ˆå€¼ = "+Config.densityThreshold+"\n\n");
 		writer.write("----------------------------\n");
 
 	}

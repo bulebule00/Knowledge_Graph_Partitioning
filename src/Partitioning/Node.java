@@ -5,14 +5,14 @@ import java.util.List;
 
 public class Node {
 
-	private boolean visited;//ÊÇ·ñ·ÃÎÊ¹ı
-	private int degree; //NodeµÄ¶È
-	private int clusterNo;     // ËùÊôÀà±ğ£¬0±íÊ¾ÀëÉ¢µã
-	private String name; //½Úµã´æ´¢µÄÊµÌåµÄÃû³Æ
-	private List<String> list; //Õâ¸ö½ÚµãµÄÈıÔª×é
+	private boolean visited;//æ˜¯å¦è®¿é—®è¿‡
+	private int degree; //Nodeçš„åº¦
+	private int clusterNo;     // æ‰€å±ç±»åˆ«ï¼Œ0è¡¨ç¤ºç¦»æ•£ç‚¹
+	private String name; //èŠ‚ç‚¹å­˜å‚¨çš„å®ä½“çš„åç§°
+	private List<String> list; //è¿™ä¸ªèŠ‚ç‚¹çš„ä¸‰å…ƒç»„
 	private boolean isBorder;
-	private String property;//½ÚµãµÄÊôĞÔ ÓĞ ¸ßÃÜ¶È¡¢±£»¤¡¢ÔëÉù¡¢±ß½ç ÈıÖÖ
-	
+	private String property;//èŠ‚ç‚¹çš„å±æ€§ æœ‰ é«˜å¯†åº¦ã€ä¿æŠ¤ã€å™ªå£°ã€è¾¹ç•Œ ä¸‰ç§
+
 	Node(String n)
 	{
 		name=n;
@@ -21,10 +21,10 @@ public class Node {
 		clusterNo=0;
 		isBorder=false;
 		list=new ArrayList<>();
-		property="ÔëÉù";
+		property="å™ªå£°";
 	}
-	
-	
+
+
 	public void add_spo(String spo)
 	{
 		list.add(spo);
@@ -35,19 +35,19 @@ public class Node {
 	}
 	public void setPropertyDen()
 	{
-		property=new String("¸ßÃÜ¶È");
+		property=new String("é«˜å¯†åº¦");
 	}
 	public void setPropertyPro()
 	{
-		property=new String("±£»¤");
+		property=new String("ä¿æŠ¤");
 	}
 	public void setPropertyNoi()
 	{
-		property=new String("ÔëÉù");
+		property=new String("å™ªå£°");
 	}
 	public void setPropertyBor()
 	{
-		property=new String("±ß½ç");
+		property=new String("è¾¹ç•Œ");
 	}
 	public void setBorder()
 	{
@@ -73,8 +73,8 @@ public class Node {
     public void setClusterNo(int i){
         clusterNo = i;
     }
-    
-    
+
+
     public List<String> getList()
     {
     	return list;
@@ -108,6 +108,6 @@ public class Node {
 	{
 		return getName()+","+getClusterNo()+","+getProperty()+","+getDegree()+","+getVisited()+","+getIsBorder();
 	}
-	
-	
+
+
 }

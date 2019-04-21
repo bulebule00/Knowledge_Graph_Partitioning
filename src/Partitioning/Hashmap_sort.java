@@ -13,74 +13,74 @@ public class Hashmap_sort {
 
 	public static void sort() throws IOException
 	{
-		System.out.println("--------¿ªÊ¼¶ÔSOºÍP¸ù¾İÃÜ¶ÈÅÅĞò--------");
+		System.out.println("--------å¼€å§‹å¯¹SOå’ŒPæ ¹æ®å¯†åº¦æ’åº--------");
 		sort_one_so(Config.subject_object,Config.list_so,"S_and_O_Degree");
 		sort_one_p(Config.predication,Config.list_p,"P_Degree");
-		System.out.println("--------ÃÜ¶ÈÅÅĞòÍê³É--------");
+		System.out.println("--------å¯†åº¦æ’åºå®Œæˆ--------");
 		System.out.println();
 	}
-	
+
 	private static void sort_one_so(Map<String, Node> map,List<Map.Entry<String, Node>> list,String filename) throws IOException
 	{
 		/***
-		¸ù¾İhashmapÖĞµÄÖµ¶ÔhashmapÅÅĞò
+		æ ¹æ®hashmapä¸­çš„å€¼å¯¹hashmapæ’åº
 		 */
-		
-		//HashMap»òMap±¾ÉíÃ»ÓĞÅÅĞò¹¦ÄÜ£¬ÈôÒª½øĞĞ½ÏÇáËÉµÄÅÅĞò£¬¿ÉÀûÓÃArrayListÖĞµÄsort·½·¨
+
+		//HashMapæˆ–Mapæœ¬èº«æ²¡æœ‰æ’åºåŠŸèƒ½ï¼Œè‹¥è¦è¿›è¡Œè¾ƒè½»æ¾çš„æ’åºï¼Œå¯åˆ©ç”¨ArrayListä¸­çš„sortæ–¹æ³•
 		String filePath=Config.hashmap_store_filePath+"//"+filename+".txt";
 		BufferedWriter writer = new BufferedWriter(new FileWriter(new File(filePath)));
 	    for(Map.Entry<String, Node> entry : map.entrySet()){
-	        list.add(entry); //½«mapÖĞµÄÔªËØ·ÅÈëlistÖĞ	             
+	        list.add(entry); //å°†mapä¸­çš„å…ƒç´ æ”¾å…¥listä¸­
 	    	}
-	    System.out.println(filename+"µÄHashMap´æÈëlist");
+	    System.out.println(filename+"çš„HashMapå­˜å…¥list");
 	    list.sort(new Comparator<Map.Entry<String, Node>>(){
             @Override
              public int compare(Map.Entry<String, Node> o1, Map.Entry<String,Node> o2) {
-                  return o2.getValue().getDegree()-o1.getValue().getDegree();} 
-                 //ÄæĞò£¨´Ó´óµ½Ğ¡£©ÅÅÁĞ£¬ÕıĞòÎª¡°return o1.getValue()-o2.getValue¡±
-	    	}); 	
-	    
-        for(Map.Entry<String, Node> entry: list){            
-			//½«½á¹ûĞ´ÈëÎÄ¼ş
+                  return o2.getValue().getDegree()-o1.getValue().getDegree();}
+                 //é€†åºï¼ˆä»å¤§åˆ°å°ï¼‰æ’åˆ—ï¼Œæ­£åºä¸ºâ€œreturn o1.getValue()-o2.getValueâ€
+	    	});
+
+        for(Map.Entry<String, Node> entry: list){
+			//å°†ç»“æœå†™å…¥æ–‡ä»¶
 		      writer.write(entry.getValue().getName()+" = "+entry.getValue().getDegree()+"\n");
            // System.out.println(entry);
         	}
         writer.close();
-	   	System.out.println("ÃÜ¶ÈĞÅÏ¢±£´æÖÁ£º"+filePath);	
+	   	System.out.println("å¯†åº¦ä¿¡æ¯ä¿å­˜è‡³ï¼š"+filePath);
 
    }
-	
-	
+
+
 	private static void sort_one_p(Map<String, Integer> map,List<Map.Entry<String, Integer>> list,String filename) throws IOException
 	{
 		/***
-		¸ù¾İhashmapÖĞµÄÖµ¶ÔhashmapÅÅĞò
+		æ ¹æ®hashmapä¸­çš„å€¼å¯¹hashmapæ’åº
 		 */
-		
-		//HashMap»òMap±¾ÉíÃ»ÓĞÅÅĞò¹¦ÄÜ£¬ÈôÒª½øĞĞ½ÏÇáËÉµÄÅÅĞò£¬¿ÉÀûÓÃArrayListÖĞµÄsort·½·¨
+
+		//HashMapæˆ–Mapæœ¬èº«æ²¡æœ‰æ’åºåŠŸèƒ½ï¼Œè‹¥è¦è¿›è¡Œè¾ƒè½»æ¾çš„æ’åºï¼Œå¯åˆ©ç”¨ArrayListä¸­çš„sortæ–¹æ³•
 		String filePath=Config.hashmap_store_filePath+"//"+filename+".txt";
 		BufferedWriter writer = new BufferedWriter(new FileWriter(new File(filePath)));
 	    for(Map.Entry<String, Integer> entry : map.entrySet()){
-	        list.add(entry); //½«mapÖĞµÄÔªËØ·ÅÈëlistÖĞ	             
+	        list.add(entry); //å°†mapä¸­çš„å…ƒç´ æ”¾å…¥listä¸­
 	    	}
-	    System.out.println(filename+"µÄHashMap´æÈëlist");
+	    System.out.println(filename+"çš„HashMapå­˜å…¥list");
 	    list.sort(new Comparator<Map.Entry<String, Integer>>(){
             @Override
              public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                  return o2.getValue()-o1.getValue();} 
-                 //ÄæĞò£¨´Ó´óµ½Ğ¡£©ÅÅÁĞ£¬ÕıĞòÎª¡°return o1.getValue()-o2.getValue¡±
-	    	}); 	
-	    
-        for(Map.Entry<String, Integer> entry: list){            
-			//½«½á¹ûĞ´ÈëÎÄ¼ş
+                  return o2.getValue()-o1.getValue();}
+                 //é€†åºï¼ˆä»å¤§åˆ°å°ï¼‰æ’åˆ—ï¼Œæ­£åºä¸ºâ€œreturn o1.getValue()-o2.getValueâ€
+	    	});
+
+        for(Map.Entry<String, Integer> entry: list){
+			//å°†ç»“æœå†™å…¥æ–‡ä»¶
 	        writer.write(entry.toString()+"\n");
            // System.out.println(entry);
         	}
         writer.close();
-	   	System.out.println("ÃÜ¶ÈĞÅÏ¢±£´æÖÁ£º"+filePath);	
+	   	System.out.println("å¯†åº¦ä¿¡æ¯ä¿å­˜è‡³ï¼š"+filePath);
 
    }
-	
-	
-	
+
+
+
 }

@@ -9,36 +9,36 @@ import java.util.List;
 import java.util.Map;
 
 public class Config {
-	////²ÎÊı
-	public static int database=1; //Ñ¡ÔñÊı¾İ¼¯
-	public static int densityThreshold=8; //ÃÜ¶ÈãĞÖµ,È¡Ç°°Ù·ÖÖ®Ê®µÄµã×îĞ¡ÃÜ¶È¡£
-	public static SimpleDateFormat df = new SimpleDateFormat("[MM-dd HH:mm:ss]");//ÉèÖÃÈÕÆÚ¸ñÊ½//System.out.println(df.format(new Date()));// new Date()Îª»ñÈ¡µ±Ç°ÏµÍ³Ê±¼ä
-   	
-	////×ÊÔ´
-	static public ArrayList<String> data;//¶ÁÈ¡ Csv
-    static public Map<String, Node> subject_object = new HashMap<String, Node>();  //Ö÷+±ö£¬´æ´¢Ö÷ÓïºÍ±öÓïµÄÃû×Öµ½µãÀàµÄÓ³Éä
-    static public Map<String, Integer> predication = new HashMap<String, Integer>(); //Î½
-	static public List<Map.Entry<String, Node>> list_so = new ArrayList<>(); //´æ´¢Ö÷ÓïºÍ±öÓïµÄÃû×Öµ½µãÀàµÄÓ³Éä
-	static public List<Map.Entry<String, Integer>> list_p = new ArrayList<>(); //´æ·ÅÎ½ÓïhashmapµÄlist
-	
-	static public Map<String,HashSet<Cluster>> Index_table=new HashMap<String,HashSet<Cluster>>();  //Ë÷Òı±í
-	static public List<Cluster> clusters= new ArrayList<Cluster>();	;//ÓÃÓÚ´æ´¢cluster¡£
-	static public List<HashSet<Node>> clusters_node=new ArrayList<HashSet<Node>>();//ÓÃÓÚ´æ´¢Ã¿¸öclusterÖĞµÄ²»Í¬Node
-	
-	////µØÖ·
-	public static String root_path=".//Database//"; //¸ùÄ¿Â¼
-	//Ô­Ê¼Êı¾İ¶ÁÈ¡µØÖ·
-	public static String read_csv_filePath=root_path+"Database_"+database+"//"+database+".csv";//Ô­Ê¼Êı¾İcsvÎÄ¼şµØÖ·
+	////å‚æ•°
+	public static int database=1; //é€‰æ‹©æ•°æ®é›†
+	public static int densityThreshold=8; //å¯†åº¦é˜ˆå€¼,å–å‰ç™¾åˆ†ä¹‹åçš„ç‚¹æœ€å°å¯†åº¦ã€‚
+	public static SimpleDateFormat df = new SimpleDateFormat("[MM-dd HH:mm:ss]");//è®¾ç½®æ—¥æœŸæ ¼å¼//System.out.println(df.format(new Date()));// new Date()ä¸ºè·å–å½“å‰ç³»ç»Ÿæ—¶é—´
 
-	//ĞÅÏ¢±£´æµØÖ·
-	public static String spo_store_filePath=root_path+"Database_"+database+"//Data//spo_dataset.txt";//spoÈıÔª×é´æ´¢µØÖ·	
-	public static String hashmap_store_filePath=root_path+"Database_"+database+"//Data";//½ÚµãÃÜ¶ÈÊı¾İ´æ´¢µØÖ·
-	public static String ClusterCsvFilePath=root_path+"Database_"+database+"//Data//cluster.csv";//¼¯ÈºĞÅÏ¢
-	public static String NodecsvFilePath=root_path+"Database_"+database+"//Data//node.csv";//½ÚµãĞÅÏ¢
-	public static String Index_tablePath=root_path+"Database_"+database+"//Cluster//Index_table.txt";//Ë÷Òı±í
-	public static String ClusterPath=root_path+"Database_"+database+"//Cluster//"; //Ğ´²»Í¬¼¯ÈºµÄÈıÔª×é
-	//ÈÕÖ¾±£´æµØÖ·
-	public static String cliquelog_filePath=root_path+"Database_"+database+"//Log//cliqueLog.txt"; //clique¾ÛÀàÈÕÖ¾
+	////èµ„æº
+	static public ArrayList<String> data;//è¯»å– Csv
+    static public Map<String, Node> subject_object = new HashMap<String, Node>();  //ä¸»+å®¾ï¼Œå­˜å‚¨ä¸»è¯­å’Œå®¾è¯­çš„åå­—åˆ°ç‚¹ç±»çš„æ˜ å°„
+    static public Map<String, Integer> predication = new HashMap<String, Integer>(); //è°“
+	static public List<Map.Entry<String, Node>> list_so = new ArrayList<>(); //å­˜å‚¨ä¸»è¯­å’Œå®¾è¯­çš„åå­—åˆ°ç‚¹ç±»çš„æ˜ å°„
+	static public List<Map.Entry<String, Integer>> list_p = new ArrayList<>(); //å­˜æ”¾è°“è¯­hashmapçš„list
+
+	static public Map<String,HashSet<Cluster>> Index_table=new HashMap<String,HashSet<Cluster>>();  //ç´¢å¼•è¡¨
+	static public List<Cluster> clusters= new ArrayList<Cluster>();	;//ç”¨äºå­˜å‚¨clusterã€‚
+	static public List<HashSet<Node>> clusters_node=new ArrayList<HashSet<Node>>();//ç”¨äºå­˜å‚¨æ¯ä¸ªclusterä¸­çš„ä¸åŒNode
+
+	////åœ°å€
+	public static String root_path=".//Database//"; //æ ¹ç›®å½•
+	//åŸå§‹æ•°æ®è¯»å–åœ°å€
+	public static String read_csv_filePath=root_path+"Database_"+database+"//"+database+".csv";//åŸå§‹æ•°æ®csvæ–‡ä»¶åœ°å€
+
+	//ä¿¡æ¯ä¿å­˜åœ°å€
+	public static String spo_store_filePath=root_path+"Database_"+database+"//Data//spo_dataset.txt";//spoä¸‰å…ƒç»„å­˜å‚¨åœ°å€
+	public static String hashmap_store_filePath=root_path+"Database_"+database+"//Data";//èŠ‚ç‚¹å¯†åº¦æ•°æ®å­˜å‚¨åœ°å€
+	public static String ClusterCsvFilePath=root_path+"Database_"+database+"//Data//cluster.csv";//é›†ç¾¤ä¿¡æ¯
+	public static String NodecsvFilePath=root_path+"Database_"+database+"//Data//node.csv";//èŠ‚ç‚¹ä¿¡æ¯
+	public static String Index_tablePath=root_path+"Database_"+database+"//Cluster//Index_table.txt";//ç´¢å¼•è¡¨
+	public static String ClusterPath=root_path+"Database_"+database+"//Cluster//"; //å†™ä¸åŒé›†ç¾¤çš„ä¸‰å…ƒç»„
+	//æ—¥å¿—ä¿å­˜åœ°å€
+	public static String cliquelog_filePath=root_path+"Database_"+database+"//Log//cliqueLog.txt"; //cliqueèšç±»æ—¥å¿—
 
 
 

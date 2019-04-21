@@ -7,42 +7,42 @@ public class test {
 
 	public static void main(String[] args) throws IOException {	
 		
-		initialize();//µ¼ÈëÊı¾İ¼¯
+		initialize();//å¯¼å…¥æ•°æ®é›†
 		
-		do_cluster();//¿ªÊ¼¾ÛÀà
+		do_cluster();//å¼€å§‹èšç±»
 		
-		print();//Êä³ö½á¹û
+		print();//è¾“å‡ºç»“æœ
 				
 	}
 	
 	
 	private static void initialize() throws IOException
 	{
-		//½«Csvµ¼ÈëHashmap
+		//å°†Csvå¯¼å…¥Hashmap
 		Config.data=Input_Output.read_spo();
 		Put_spo_in_hashmap.put_csv_in_hashmap();		
-		//¶ÔHashmap½øĞĞÅÅĞò,µÃµ½ÃÜ¶ÈĞòÁĞ
+		//å¯¹Hashmapè¿›è¡Œæ’åº,å¾—åˆ°å¯†åº¦åºåˆ—
 		Hashmap_sort.sort();
 	}
 	
 	private static void do_cluster() throws IOException
 	{
-		//clique¾ÛÀà
+		//cliqueèšç±»
 		CliqueCluster.do_clique();
 	}
 	
 	private static void print() throws IOException
 	{
 
-		//±£´æ½ÚµãĞÅÏ¢
+		//ä¿å­˜èŠ‚ç‚¹ä¿¡æ¯
 		Input_Output.writeAllNodeCSV();
-		//±£´æ¼¯ÈºĞÅÏ¢
+		//ä¿å­˜é›†ç¾¤ä¿¡æ¯
 		Input_Output.writeClusterInfo();
-		//µ¼³ö¼¯ÈºÖĞ½ÚµãĞÅÏ¢
+		//å¯¼å‡ºé›†ç¾¤ä¸­èŠ‚ç‚¹ä¿¡æ¯
 		Input_Output.writeClusterNodeCSV();
-		//±£´æ·Ö²¼Ê½Êı¾İ
+		//ä¿å­˜åˆ†å¸ƒå¼æ•°æ®
 		Input_Output.writeClusterSpo();
-		//±£´æË÷Òı±í
+		//ä¿å­˜ç´¢å¼•è¡¨
 		Input_Output.writeIndexTable();
 
 

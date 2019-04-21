@@ -23,15 +23,15 @@ import com.csvreader.CsvWriter;
 public class Input_Output {
 	//static String read_filePath="C://Users//liu01//Desktop//red_building//triples.csv";
 	static int lines;
-	
-	//¶Á
+
+	//è¯»
 	public static ArrayList<String> read_spo() {
-        File csv = new File(Config.read_csv_filePath); // CSVÎÄ¼şÂ·¾¶
-        csv.setReadable(true);//ÉèÖÃ¿É¶Á
-        csv.setWritable(true);//ÉèÖÃ¿ÉĞ´
+        File csv = new File(Config.read_csv_filePath); // CSVæ–‡ä»¶è·¯å¾„
+        csv.setReadable(true);//è®¾ç½®å¯è¯»
+        csv.setWritable(true);//è®¾ç½®å¯å†™
         BufferedReader br = null;
-        System.out.println("--------¿ªÊ¼¶ÁÈ¡CSVÎÄ¼ş--------");
-        System.out.println("Â·¾¶£º"+Config.read_csv_filePath);       
+        System.out.println("--------å¼€å§‹è¯»å–CSVæ–‡ä»¶--------");
+        System.out.println("è·¯å¾„ï¼š"+Config.read_csv_filePath);
         try {
         	  DataInputStream in=new DataInputStream(new FileInputStream(csv));
 //            br = new BufferedReader(new FileReader(csv));
@@ -42,78 +42,78 @@ public class Input_Output {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
+
         String line = "";
         String everyLine = "";
         ArrayList<String> allString = new ArrayList<>();
         try {
-            while ((line = br.readLine()) != null) // ¶ÁÈ¡µ½µÄÄÚÈİ¸øline±äÁ¿
+            while ((line = br.readLine()) != null) // è¯»å–åˆ°çš„å†…å®¹ç»™lineå˜é‡
             {
                 everyLine = line;
               //  System.out.println(everyLine);
                 allString.add(everyLine);
             }
             lines=allString.size();
-            System.out.println("ÒÑ¶ÁÈ¡  " + allString.size()+" ĞĞÈıÔª×é");
-            System.out.println("--------CSVÎÄ¼ş¶ÁÈ¡Íê³É--------"+"\n");
+            System.out.println("å·²è¯»å–  " + allString.size()+" è¡Œä¸‰å…ƒç»„");
+            System.out.println("--------CSVæ–‡ä»¶è¯»å–å®Œæˆ--------"+"\n");
 
         } catch (IOException e) {
             e.printStackTrace();
         }
         return allString;
-        
+
     }
-	
-	//Ğ´
-    static public void writeAllNodeCSV() {      
+
+	//å†™
+    static public void writeAllNodeCSV() {
         try {
         	Iterator<Entry<String, Node>> iter = Config.subject_object.entrySet().iterator();
-        	System.out.println("--------¿ªÊ¼µ¼³ö½ÚµãĞÅÏ¢--------");
-        	System.out.println("Â·¾¶Îª£º"+Config.NodecsvFilePath);
+        	System.out.println("--------å¼€å§‹å¯¼å‡ºèŠ‚ç‚¹ä¿¡æ¯--------");
+        	System.out.println("è·¯å¾„ä¸ºï¼š"+Config.NodecsvFilePath);
 
     		CsvWriter csvWriter = new CsvWriter(Config.NodecsvFilePath,',', Charset.forName("utf-8"));
-            // Ğ´ÄÚÈİ
+            // å†™å†…å®¹
             String[] headers = {"Name","ClusterNo","Property","Degree","Visited","Border"};
             csvWriter.writeRecord(headers);
     		while (iter.hasNext()) {
     			//nodeNo++;
     			@SuppressWarnings("rawtypes")
     			Map.Entry entry = (Map.Entry) iter.next();
-    			Node val = (Node) entry.getValue();//È¡³öNode³ÉÔ±
-    			//writer.write("½Úµã"+nodeNo+val.print()+"\n");
+    			Node val = (Node) entry.getValue();//å–å‡ºNodeæˆå‘˜
+    			//writer.write("èŠ‚ç‚¹"+nodeNo+val.print()+"\n");
     			String[] writeLine=val.print().split(",");
                 csvWriter.writeRecord(writeLine);
-    			}	                    
+    			}
             csvWriter.close();
-            System.out.println("--------Node_CSVÎÄ¼şÒÑ¾­Ğ´Èë--------\n");
+            System.out.println("--------Node_CSVæ–‡ä»¶å·²ç»å†™å…¥--------\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }	
+    }
 
-    public static void writeClusterNodeCSV()  throws IOException 
+    public static void writeClusterNodeCSV()  throws IOException
     {
-      	int i=0;//¼¯ÈººÅ
-    	System.out.println("--------¿ªÊ¼µ¼³öÃ¿¸ö¼¯ÈºÖĞ½ÚµãĞÅÏ¢--------");
-    	System.out.println("Â·¾¶Îª£º"+Config.ClusterPath);
+      	int i=0;//é›†ç¾¤å·
+    	System.out.println("--------å¼€å§‹å¯¼å‡ºæ¯ä¸ªé›†ç¾¤ä¸­èŠ‚ç‚¹ä¿¡æ¯--------");
+    	System.out.println("è·¯å¾„ä¸ºï¼š"+Config.ClusterPath);
     	Iterator<HashSet<Node>> it=Config.clusters_node.iterator();
     	while (it.hasNext())
     	{
-    		HashSet<Node> cluster_nodes_list=it.next(); //È¡³öµ±Ç°¼¯ÈºµÄnodeÁĞ±í
+    		HashSet<Node> cluster_nodes_list=it.next(); //å–å‡ºå½“å‰é›†ç¾¤çš„nodeåˆ—è¡¨
     		String filepath=Config.ClusterPath+"Cluster"+i+"_Node.csv";
     		writeOneClusterNodeCSV(cluster_nodes_list,filepath);
-            System.out.println("¼¯Èº"+i+"½ÚµãĞÅÏ¢ÒÑµ¼³ö,¹²"+cluster_nodes_list.size()+"¸ö¡£"); 
+            System.out.println("é›†ç¾¤"+i+"èŠ‚ç‚¹ä¿¡æ¯å·²å¯¼å‡º,å…±"+cluster_nodes_list.size()+"ä¸ªã€‚");
     		i++;
-    	}   
+    	}
 
-    	System.out.println("--------¼¯ÈºÖĞ½ÚµãĞÅÏ¢µ¼³öÍê³É--------\n");
+    	System.out.println("--------é›†ç¾¤ä¸­èŠ‚ç‚¹ä¿¡æ¯å¯¼å‡ºå®Œæˆ--------\n");
     }
-    
-    static private void writeOneClusterNodeCSV(HashSet<Node> cluster_nodes_list,String filepath) throws IOException {    
+
+    static private void writeOneClusterNodeCSV(HashSet<Node> cluster_nodes_list,String filepath) throws IOException {
     		CsvWriter csvWriter = new CsvWriter(filepath,',', Charset.forName("utf-8"));
             String[] headers = {"Name","ClusterNo","Property","Degree","Visited","Border"};
             csvWriter.writeRecord(headers);
-            
+
             Iterator<Node> iter=cluster_nodes_list.iterator();
             while(iter.hasNext())
             {
@@ -121,61 +121,61 @@ public class Input_Output {
                 csvWriter.writeRecord(writeLine);
             }
             csvWriter.close();
-            
 
-    	
-    }	
-    
-	static public void writeClusterInfo() {      
-	    try 
+
+
+    }
+
+	static public void writeClusterInfo() {
+	    try
 	    	{
 		    	Iterator<Cluster> iter = Config.clusters.iterator();
 
-		    	System.out.println("--------¿ªÊ¼µ¼³ö¼¯ÈºĞÅÏ¢--------");
-		    	System.out.println("Â·¾¶Îª£º"+Config.ClusterCsvFilePath);
-		   
+		    	System.out.println("--------å¼€å§‹å¯¼å‡ºé›†ç¾¤ä¿¡æ¯--------");
+		    	System.out.println("è·¯å¾„ä¸ºï¼š"+Config.ClusterCsvFilePath);
+
 				CsvWriter csvWriter = new CsvWriter(Config.ClusterCsvFilePath,',', Charset.forName("utf-8"));
-		        // Ğ´ÄÚÈİ
+		        // å†™å†…å®¹
 		        String[] headers = {"clusterNo","density","nodeNum"};
 		        csvWriter.writeRecord(headers);
 				while (iter.hasNext()) {
-					Cluster clu=iter.next();			
+					Cluster clu=iter.next();
 					String[] writeLine=clu.print().split(",");
 		            csvWriter.writeRecord(writeLine);
-					}	                    
+					}
 		        csvWriter.close();
-		        
-		        System.out.println("--------Cluster_CSVÎÄ¼şÒÑ¾­Ğ´Èë--------\n");
-		    } 
-	    catch (IOException e) 
+
+		        System.out.println("--------Cluster_CSVæ–‡ä»¶å·²ç»å†™å…¥--------\n");
+		    }
+	    catch (IOException e)
 	    	{
 		        e.printStackTrace();
 		    }
-	}	
+	}
 
-	static public void writeIndexTable() 
+	static public void writeIndexTable()
 	{
-		try 
+		try
 		{
-	    	System.out.println("--------¿ªÊ¼Ğ´Ë÷Òı±í--------");
-	    	System.out.println("Â·¾¶Îª£º"+Config.Index_tablePath);
+	    	System.out.println("--------å¼€å§‹å†™ç´¢å¼•è¡¨--------");
+	    	System.out.println("è·¯å¾„ä¸ºï¼š"+Config.Index_tablePath);
 			//BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Config.Index_tablePath)));
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(Config.Index_tablePath)),"utf-8"));
-			//±éÀúË÷Òı±í
+			//éå†ç´¢å¼•è¡¨
 			Iterator<Entry<String,HashSet<Cluster>>> iter = Config.Index_table.entrySet().iterator();
-			while (iter.hasNext()) 
+			while (iter.hasNext())
 			{
 				@SuppressWarnings("rawtypes")
 				Map.Entry entry = (Map.Entry) iter.next();
-				
+
 				String key = (String) entry.getKey();
 				@SuppressWarnings("unchecked")
-				HashSet<Cluster> val = (HashSet<Cluster>) entry.getValue();//È¡³öNode³ÉÔ±
-			
+				HashSet<Cluster> val = (HashSet<Cluster>) entry.getValue();//å–å‡ºNodeæˆå‘˜
+
 				Object[] toArray =  val.toArray();
-				
-				writer.write(key+"ËùÔÚ¼¯ÈºÎª£º");
-					
+
+				writer.write(key+"æ‰€åœ¨é›†ç¾¤ä¸ºï¼š");
+
 				int i=0;
 				for(i=0;i<toArray.length-1;++i)
 				{
@@ -187,28 +187,28 @@ public class Input_Output {
 			}
 			writer.close();
 		}
-	    catch (IOException e) 
+	    catch (IOException e)
     	{
 	        e.printStackTrace();
 	    }
-		System.out.println("--------Ë÷Òı±íÒÑ¾­Ğ´Èë--------\n");
+		System.out.println("--------ç´¢å¼•è¡¨å·²ç»å†™å…¥--------\n");
 	}
 
 	static public void writeClusterSpo() throws IOException
 	{
-        	
-        	System.out.println("--------¿ªÊ¼µ¼³öCluster--------");
-        	System.out.println("´æ·ÅÓÚÎÄ¼ş¼Ğ£º"+Config.ClusterPath);
+
+        	System.out.println("--------å¼€å§‹å¯¼å‡ºCluster--------");
+        	System.out.println("å­˜æ”¾äºæ–‡ä»¶å¤¹ï¼š"+Config.ClusterPath);
 
         	Iterator<Cluster> it=Config.clusters.iterator();
         	while(it.hasNext())
         	{
         		Cluster clu=it.next();
-        		
+
         		String filepath=Config.ClusterPath+"Cluster"+clu.getClusterNo()+"_spo.csv";
     			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(filepath)),"utf-8"));
         		writer.write("Head,Relation,Tail\n");
-        		
+
         		HashSet<String> spoSet=clu.getSpo();
         		Iterator<String> iter=spoSet.iterator();
         		while (iter.hasNext())
@@ -217,10 +217,10 @@ public class Input_Output {
         		}
         		writer.close();
         	}
-        	
-        	
-        	
-            System.out.println("--------ClusterĞÅÏ¢ÒÑ¾­µ¼³ö--------\n");
+
+
+
+            System.out.println("--------Clusterä¿¡æ¯å·²ç»å¯¼å‡º--------\n");
 
 	}
 

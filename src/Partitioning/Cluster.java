@@ -7,13 +7,13 @@ import java.util.List;
 
 
 public class Cluster {
-    private int clusterNo;   //cluster±àºÅ
-    private int density;     //ÃÜ¶È
+    private int clusterNo;   //clusterç¼–å·
+    private int density;     //å¯†åº¦
     private int nodeNum;
     private HashSet<String> spo;
     public Cluster(int i){
         clusterNo = i;
-        density = 0;  
+        density = 0;
         nodeNum=0;
         spo=new HashSet<String>();
     }
@@ -22,10 +22,10 @@ public class Cluster {
 	{
 		return getClusterNo()+","+ getDensity()+","+getNodeNum();
 	}
-	
+
     public void addDensity(Node n){
     	/***
-    	 clusterÃÜ¶ÈÔö¼Ó
+    	 clusterå¯†åº¦å¢åŠ 
     	 */
     	List<String> spo_list=n.getList();
 		Iterator<String> stringList=spo_list.iterator();
@@ -33,11 +33,11 @@ public class Cluster {
 		{
 			spo.add(stringList.next());
 		}
-        density +=n.getDegree(); 
+        density +=n.getDegree();
         nodeNum++;
         }
 
-    
+
 
     public HashSet<String> getSpo()
     {

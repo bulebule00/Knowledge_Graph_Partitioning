@@ -14,33 +14,33 @@ public class Put_spo_in_hashmap {
 	//public static String filePath="C://Users//liu01//Desktop//red_building//spo_dataset.txt";
 	
 
-	public  static void put_csv_in_hashmap() throws IOException //¶ÁÈ¡csv¸ñÊ½µÄÈıÔª×é£¬²ğ³És p o·Ö±ğµ÷ÓÃÒÔÏÂÈı¸öº¯Êı
+	public  static void put_csv_in_hashmap() throws IOException //è¯»å–csvæ ¼å¼çš„ä¸‰å…ƒç»„ï¼Œæ‹†æˆs p oåˆ†åˆ«è°ƒç”¨ä»¥ä¸‹ä¸‰ä¸ªå‡½æ•°
 	{
 
 		/***
-		 ½«csvÖĞµÄÃ¿ĞĞÈıÔª×é²ğ·Ö³És¡¢p¡¢oÈı²¿·Ö£¬È»ºóµ÷ÓÃput_spo_in_hashmapÍê³ÉhashmapµÄ¼ÓÈë¡£
+		 å°†csvä¸­çš„æ¯è¡Œä¸‰å…ƒç»„æ‹†åˆ†æˆsã€pã€oä¸‰éƒ¨åˆ†ï¼Œç„¶åè°ƒç”¨put_spo_in_hashmapå®Œæˆhashmapçš„åŠ å…¥ã€‚
 		 */
-		System.out.println("--------¿ªÊ¼²ğ·ÖSPO--------");
+		System.out.println("--------å¼€å§‹æ‹†åˆ†SPO--------");
 		
 		BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Config.spo_store_filePath)));
 		
 		Iterator<String> it=Config.data.iterator();
-		it.next(); //Ìø¹ı±íÍ·
+		it.next(); //è·³è¿‡è¡¨å¤´
 
 		while(it.hasNext())
 		{
-			String line=it.next();//È¡³öÒ»¸öÈıÔª×é	
+			String line=it.next();//å–å‡ºä¸€ä¸ªä¸‰å…ƒç»„	
 		//	System.out.println(line);  
 			List<String> result = Arrays.asList(line.split(",")); 
 			
-			//¶ÁÈ¡spoÈıÔª×é¡£ ÒÔÏÂ´úÂë¸ù¾İÊı¾İ¼¯ÄÚÈİ½øĞĞĞŞ¸Ä
+			//è¯»å–spoä¸‰å…ƒç»„ã€‚ ä»¥ä¸‹ä»£ç æ ¹æ®æ•°æ®é›†å†…å®¹è¿›è¡Œä¿®æ”¹
 			Iterator<String>list_it=result.iterator();		
 			String s=list_it.next();
 			String o=list_it.next();
-			list_it.next();//Ìø¹ıÓ¢ÎÄlabel		
+			list_it.next();//è·³è¿‡è‹±æ–‡label		
 			String p=list_it.next();	
 			
-		//Êä³öspo
+		//è¾“å‡ºspo
 		//	System.out.println("s="+s);
 			put_s_in_hashmap(Config.subject_object ,s,p,o);
 		//	System.out.println("p="+p);
@@ -49,34 +49,34 @@ public class Put_spo_in_hashmap {
 			put_o_in_hashmap( Config.subject_object ,o,p,s);
 		//	System.out.println();
 			
-			//½«½á¹ûĞ´ÈëÎÄ¼ş
+			//å°†ç»“æœå†™å…¥æ–‡ä»¶
 		     writer.write("\n"+"s="+s+"\n"+"p="+p+"\n"+"o="+o+"\n");
 		}
 		writer.close();
-		System.out.println("ÊµÌå  "+ Config.subject_object .size()+" ¸ö");
-		System.out.println("¹ØÏµ   "+Config.predication.size()+" ÖÖ");
-		System.out.println("ÊµÌåºÍ¹ØÏµ·Ö±ğ´æÈëÁ½¸öHashMap");
-		System.out.println("ÊµÌåºÍ¹ØÏµ±£´æÖÁ £º"+Config.spo_store_filePath);
-		System.out.println("--------SPO²ğ·ÖÍê±Ï--------"+"\n");
+		System.out.println("å®ä½“  "+ Config.subject_object .size()+" ä¸ª");
+		System.out.println("å…³ç³»   "+Config.predication.size()+" ç§");
+		System.out.println("å®ä½“å’Œå…³ç³»åˆ†åˆ«å­˜å…¥ä¸¤ä¸ªHashMap");
+		System.out.println("å®ä½“å’Œå…³ç³»ä¿å­˜è‡³ ï¼š"+Config.spo_store_filePath);
+		System.out.println("--------SPOæ‹†åˆ†å®Œæ¯•--------"+"\n");
 //		System.out.println("o.size()= "+object.size());
 	}
 	
 	private static void put_s_in_hashmap(Map<String, Node> spo,String s,String p,String o)
 	{
 		/***
-		 ½«spo·ÖÎª s o pÈı²¿·Ö ·ÅÈëÁ½¸öhashmap;
+		 å°†spoåˆ†ä¸º s o pä¸‰éƒ¨åˆ† æ”¾å…¥ä¸¤ä¸ªhashmap;
 		 */
 		Node result=spo.get(s);	
 		if(result==null)
 		{
-			//Èç¹ûÊÇµÚÒ»´Î£¬¾ÍĞÂ½¨Ò»¸önode£¬¶ÈÎª1
+			//å¦‚æœæ˜¯ç¬¬ä¸€æ¬¡ï¼Œå°±æ–°å»ºä¸€ä¸ªnodeï¼Œåº¦ä¸º1
 			Node n=new Node(s);
 			n.add_spo((String)(s+","+p+","+o));
 			spo.put(s,n); 
 		}
 		else
 		{
-			//Èç¹ûÕâ¸ö½ÚµãÒÑ´æÔÚ,¾Í°ÑËûµÄ¶È+1
+			//å¦‚æœè¿™ä¸ªèŠ‚ç‚¹å·²å­˜åœ¨,å°±æŠŠä»–çš„åº¦+1
 			result.add_spo((String)(s+","+p+","+o));
 			result.setDegree(result.getDegree()+1);
 		}
@@ -84,19 +84,19 @@ public class Put_spo_in_hashmap {
 	private static void put_o_in_hashmap(Map<String, Node> spo,String o,String p,String s)
 	{
 		/***
-		 ½«spo·ÖÎª s o pÈı²¿·Ö ·ÅÈëÁ½¸öhashmap;
+		 å°†spoåˆ†ä¸º s o pä¸‰éƒ¨åˆ† æ”¾å…¥ä¸¤ä¸ªhashmap;
 		 */
 		Node result=spo.get(o);	
 		if(result==null)
 		{
-			//Èç¹ûÊÇµÚÒ»´Î£¬¾ÍĞÂ½¨Ò»¸önode£¬¶ÈÎª1
+			//å¦‚æœæ˜¯ç¬¬ä¸€æ¬¡ï¼Œå°±æ–°å»ºä¸€ä¸ªnodeï¼Œåº¦ä¸º1
 			Node n=new Node(o);
 			n.add_spo((String)(s+","+p+","+o));
 			spo.put(o,n); 
 		}
 		else
 		{
-			//Èç¹ûÕâ¸ö½ÚµãÒÑ´æÔÚ,¾Í°ÑËûµÄ¶È+1
+			//å¦‚æœè¿™ä¸ªèŠ‚ç‚¹å·²å­˜åœ¨,å°±æŠŠä»–çš„åº¦+1
 			result.add_spo((String)(s+","+p+","+o));
 			result.setDegree(result.getDegree()+1);
 		}
@@ -104,22 +104,22 @@ public class Put_spo_in_hashmap {
 	private static void put_p_in_hashmap(Map<String, Integer> spo,String spo_name)
 	{
 		/***
-		½«spo·ÖÎª s o pÈı²¿·Ö ·ÅÈëÁ½¸öhashmap;
+		å°†spoåˆ†ä¸º s o pä¸‰éƒ¨åˆ† æ”¾å…¥ä¸¤ä¸ªhashmap;
 		 */
-		boolean book=false; // ±êÖ¾Î»£¬ÊÇ·ñÒÑ¼ÓÈëhashmap
+		boolean book=false; // æ ‡å¿—ä½ï¼Œæ˜¯å¦å·²åŠ å…¥hashmap
 		int result = 0;
 		try {
 			result=(Integer)spo.get(spo_name);			
 		}
 		catch(java.lang.NullPointerException a)
 		{
-			//Èç¹ûÊÇµÚÒ»´Î
+			//å¦‚æœæ˜¯ç¬¬ä¸€æ¬¡
 			spo.put(spo_name,(Integer)1); 
 			book=true;
 		}
 		if(!book)
 		{
-			//Èç¹ûÕâ¸ö½ÚµãÒÑ´æÔÚ
+			//å¦‚æœè¿™ä¸ªèŠ‚ç‚¹å·²å­˜åœ¨
 			spo.put(spo_name, (Integer)result+1);
 		}
 	}
