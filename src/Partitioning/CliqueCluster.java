@@ -24,38 +24,38 @@ public class CliqueCluster {
 	private static List<Node> noise_process_Node; //处理噪声时被修改了标记的节点。
 
 	public static void do_clique() throws IOException
-	{	
-		
+	{
+
 		BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Config.cliquelog_filePath)));//写日志
-		
+
 		////////////////////初始化和核心程序////////////////////
 		System.out.println("--------开始进行Clique聚类--------");
 		writer.write("--------开始进行Clique聚类--------\n\n");
-		
-		initialize(writer);//初始化	
+
+		initialize(writer);//初始化
 		search_all_hash(writer);//遍历hashmap
 
 		 //////////////////////噪声////////////////////////////
         System.out.println("--------开始处理噪声点--------");
         writer.write("\n--------开始处理噪声点--------\n");
-        
+
         deal_with_noise(writer);
-        
+
         System.out.println("--------噪声点处理结束--------\n");
         writer.write("--------噪声点处理结束--------\n\n");
 
         //////////////////////边界/////////////////////////////
         System.out.println("--------开始处理边界点--------");
         writer.write("--------开始处理边界点--------\n");
-        
+
         int n=deal_with_border(writer);
-        
+
         System.out.println("已处理"+n+"个边界点");
         writer.write("已处理"+n+"个边界点\n");
         System.out.println("--------边界点处理结束--------\n");
         writer.write("--------边界点处理结束--------\n\n");
         /////////////////////////统计信息////////////////////////////
-        
+
 		System.out.println("--------Clique聚类信息如下--------");
 		writer.write("--------Clique聚类信息如下--------\n");
 		System.out.println("共产生 "+clusterNo+" 个类");
@@ -66,19 +66,19 @@ public class CliqueCluster {
 		writer.write("需切割 "+border_Node.size()+" 个边缘结点\n");
 		System.out.println("Clique聚类日志已写入"+Config.cliquelog_filePath);
 		 /////////////////////结束///////////////////////////////
-		
+
 		System.out.println("--------Clique聚类结束--------\n");
 		writer.write("--------Clique聚类结束--------\n\n");
         writer.close();
 	}
 
 	private static void search_all_hash (BufferedWriter writer) throws IOException
-	{	
+	{
 		Cluster clu = new Cluster(clusterNo); //建一个噪声集群0。
 		HashSet<Node> nod=new HashSet<Node>();// 存储属于噪声集群的点信息
-		Config.clusters.add(clu); 
+		Config.clusters.add(clu);
 		Config.clusters_node.add(nod);
-		
+
 		Iterator<Entry<String, Node>> iter = Config.subject_object.entrySet().iterator();
 		while (iter.hasNext()) {
 			@SuppressWarnings("rawtypes")
@@ -92,30 +92,30 @@ public class CliqueCluster {
 				{
 					//System.out.println(((Node) val).getDegree());
 					clusterNo++; //新的集群出现了
-					
+
 					writer.write("\n"+Config.df.format(new Date())+"----从节点" + nodeNo+" "+val.getName()+"开始进行Clique聚类----\n");
-					
-					bfs(val,writer);	
-					
-					writer.write(Config.df.format(new Date())+"----节点" + val.getName()+"聚类结束----\n\n");			
+
+					bfs(val,writer);
+
+					writer.write(Config.df.format(new Date())+"----节点" + val.getName()+"聚类结束----\n\n");
 				}
 				else if(val.getDegree()< Config.densityThreshold)
 				{
 					//密度没有达到阈值的点， （可能被保护了，也可能作为噪声）
 					val.setClusterNo(0);//暂时设为噪声点，(可能在bfs中就被保护起来了)
-					
+
 					writer.write(Config.df.format(new Date())+"低密度 "+nodeNo+" ："+val.getName()+"\n");
 				}
-			}		
+			}
 		}
 
 	}
-	
+
 	private static void bfs (Node start_node,BufferedWriter writer) throws IOException
 	{
 		Queue<Node> q=new LinkedList<>();
-		q.add(start_node);//起始顶点加入队列	
-		
+		q.add(start_node);//起始顶点加入队列
+
 		//新建一个cluster(边表)以及和点信息列表（顶点表），并初始化。
 		Cluster clu = null;
 		try{
@@ -124,7 +124,7 @@ public class CliqueCluster {
 		catch (IndexOutOfBoundsException e)
 		{
 			clu=new Cluster(clusterNo);
-		}	
+		}
 		HashSet<Node> nod = null;
 		try{
 			nod= Config.clusters_node.get(clusterNo);
@@ -132,8 +132,8 @@ public class CliqueCluster {
 		catch (IndexOutOfBoundsException e)
 		{
 			nod=new HashSet<Node>();
-		}	
-		
+		}
+
 		//开始BFS循环
 	    while(!q.isEmpty())
 	    {
@@ -142,12 +142,12 @@ public class CliqueCluster {
 			top.setVisited();
 			top.setClusterNo(clusterNo);
 			top.setPropertyDen();
-			
+
 			clu.addDensity(top);
 			nod.add(top);
-			
+
 	        writer.write(Config.df.format(new Date())+"高密 "+"："+top.getName()+" 加入"+"集群"+clu.getClusterNo()+"\n");
-	        
+
 	        //准备下一批节点
 			List<String> list=top.getList();
 			Iterator<String> it=list.iterator();
@@ -160,7 +160,7 @@ public class CliqueCluster {
 				Node linked_node=Config.subject_object.get(other); //得到与之相连的节点的Node
 				//writer.write("与"+top.getName()+"相连的node：  "+spo+"\n");
 				if(linked_node.getVisited()==false )
-				{	
+				{
 					//如果被保了 ，或者本身密度达到阈值，就给他加入队列的机会
 					if ( linked_node.getDegree()==1)
 					{
@@ -168,15 +168,15 @@ public class CliqueCluster {
 						linked_node.setVisited();
 						linked_node.setClusterNo(clusterNo);
 						linked_node.setPropertyPro();//保护
-						
+
 						clu.addDensity(linked_node);
 						nod.add(linked_node);
-						//writer.write("是一个保护结点\n");	
-						
+						//writer.write("是一个保护结点\n");
+
 				        writer.write(Config.df.format(new Date())+"保护 "+"："+linked_node.getName()+" 加入"+"集群"+clu.getClusterNo()+"\n");
 
 					}
-					else if(linked_node.getDegree()>= Config.densityThreshold)  
+					else if(linked_node.getDegree()>= Config.densityThreshold)
 					{
 						writer.write("与"+top.getName()+"相连的node：  "+linked_node.getName()+"入队列！\n");
 						//writer.write("是一个高密度结点\n");
@@ -188,13 +188,13 @@ public class CliqueCluster {
 						linked_node.setVisited();
 						linked_node.setClusterNo(clusterNo);
 						linked_node.setPropertyBor();
-						
+
 						border_Node.add(linked_node);//加入 边界点列表
 						clu.addDensity(linked_node);
 						nod.add(linked_node);
 
 				        writer.write(Config.df.format(new Date())+"边界 "+"："+linked_node.getName()+" 加入"+"集群"+clu.getClusterNo()+"\n");
-					}				
+					}
 				}
 				else
 				{
@@ -205,7 +205,7 @@ public class CliqueCluster {
 					//BorderNum++;
 					//System.out.println("发现了一个奇怪的点。。");
 					//把他的集群号归为999， 不处理它
-					//linked_node.setClusterNo(999);			 
+					//linked_node.setClusterNo(999);
 					//【最新】： 暂时不处理这种点，留给后面的噪声和边界点处理程序。
 				}
 			}
@@ -215,53 +215,53 @@ public class CliqueCluster {
 	    writer.write(Config.df.format(new Date())+"聚类号:"+clu.getClusterNo()+"  共有"+clu.getNodeNum()+"个点\n");
 	 }
 
-	
-	private static void deal_with_noise(BufferedWriter writer) throws IOException 
+
+	private static void deal_with_noise(BufferedWriter writer) throws IOException
 
 	{
 		collect_noise();
-		
+
 		int true_num=0;//真噪声点个数
 		int false_num=0; //伪噪声点个数
-		
+
 		System.out.println("共有"+noise_Node.size()+"个噪声点");
 		writer.write("共有"+noise_Node.size()+"个噪声点\n\n");
 		//1. 先对每个点做深搜，找到最近的cluster加入。
-		
+
 		//遍历噪声点list
 		Iterator<Node> it=noise_Node.iterator();
 		while(it.hasNext())
 		{
-			
+
 			Node start=it.next();
 			writer.write(Config.df.format(new Date())+"处理噪声点"+start.getName()+"\n");
 			//System.out.println(Config.df.format(new Date())+"处理噪声点"+start.getName());
 			int n = bfs_noise(start); //n不是0 则不是噪音点，但可能是边界点
 			if(n==0) {
 				//是一个孤岛的噪声点。无法处理
-				true_num++;				
+				true_num++;
 			}
 			else {
 				false_num++;
 
-				border_Node.add(start);	
+				border_Node.add(start);
 				it.remove();
 			}
 			start.setClusterNo(n); //给他设置bfs获得的集群号
 			Config.clusters.get(n).addDensity(start);  //更新cluster
-			Config.clusters_node.get(n).add(start); 
+			Config.clusters_node.get(n).add(start);
 			writer.write(Config.df.format(new Date())+"距离最近的聚类号是"+n+"\n\n");
 		//	System.out.println(Config.df.format(new Date())+"距离噪声点"+start.getName() +"最近的聚类号是"+n);
-			
+
 
 			set_node_visited(noise_process_Node);
 		}
-		
+
         System.out.println("其中有"+true_num+"个真噪声点,已处理"+false_num+"个伪噪声点");
         writer.write("已处理"+true_num+"个真噪声点,"+false_num+"个伪噪声点\n");
 		//return num;
 	}
-		
+
 	private static int deal_with_border(BufferedWriter writer) throws IOException
 	{
 		int n=0;
@@ -280,7 +280,7 @@ public class CliqueCluster {
 				it.remove(); //从list中把他删除
 				false_border++;
 			}
-			else 
+			else
 			{
 				true_border++;
 			}
@@ -289,8 +289,8 @@ public class CliqueCluster {
 		writer.write("\n有"+true_border+"个真边界点,"+false_border+"个伪边界点\n");
 		return n;
 	}
-	
-	
+
+
 	private static boolean deal_one_border_node(Node start,BufferedWriter writer) throws IOException
 	{
 		int now_node_clusterNo=start.getClusterNo();
@@ -299,11 +299,11 @@ public class CliqueCluster {
 		boolean is_border=false;
 		HashSet<Cluster> linked_clusters=new HashSet<Cluster>();//边界点的索引表中使用的List
 		linked_clusters.add(Config.clusters.get(start.getClusterNo())); //先把当前这个节点的cluster存进去
-		
+
 		//判断是否是边界
 		List<String> l=start.getList();
 		Iterator<String> node_iter=l.iterator();
-		while(node_iter.hasNext())
+(		while(node_iter.hasNext())
 		{
 			String spo=node_iter.next(); //当前节点存储的一条spo信息。
 			String other=get_another(spo,start.getName());//读取spo，得到与当前节点相连的另一个节点
@@ -314,28 +314,28 @@ public class CliqueCluster {
 				is_border=true;
 				linked_clusters.add(Config.clusters.get(linked_node.getClusterNo()));
 				Config.clusters_node.get(now_node_clusterNo).add(linked_node); //就在当前集群的node表中加入其他集群的边缘node
-			}	
+			}
 			if(linked_node.getIsBorder()==true)
 			{
 				//friend_is_border_Num++;
 			}
-		}		
+		}		)
 		//判断是否需要切割
 		if(is_border == false)
 		{
 			start.removeBorder();//取消他的边缘结点称号
 			writer.write(Config.df.format(new Date())+"节点"+start.getName()+"是伪边界点\n");
-			return false;
-		}	
+			//return false;
+		}
 		if (is_border==true)
 		{
-			start.setBorder(); 
+			start.setBorder();
 			writer.write(Config.df.format(new Date())+"节点"+start.getName()+"是真边界点\n");
 			Config.Index_table.put(start.getName(), linked_clusters); //如果这个点要切，就把这个点和与他相关的cluster加入索引map.
-			return true;
+			//return true;
 			/*if (friend_is_border_Num!=friend_is_differ_cluster_Num) //是边界
 			{
-				start.setBorder(); 
+				start.setBorder();
 				writer.write(Config.df.format(new Date())+"节点"+start.getName()+"是真边界点\n");
 				Config.Index_table.put(start, clu); //如果这个点要切，就把这个点和与他相关的cluster加入索引map.
 				return true;
@@ -347,11 +347,11 @@ public class CliqueCluster {
 					return false;
 			}*/
 		}
-		return false; //没必要加。。但是不加他会报错OTZ	
+		return is_border; //没必要加。。但是不加他会报错OTZ
 	}
-	
-	
-	private static void collect_noise() 
+
+
+	private static void collect_noise()
 
 	{
 		/***
@@ -359,7 +359,7 @@ public class CliqueCluster {
 		 * or 噪声节点不一定要在这里加入list，在bfs循环中就可以实现了
 		 */
 		Iterator<Entry<String, Node>> iter = Config.subject_object.entrySet().iterator();
-		while (iter.hasNext()) 
+		while (iter.hasNext())
 		{
 			@SuppressWarnings("rawtypes")
 			Map.Entry entry = (Map.Entry) iter.next();
@@ -367,29 +367,29 @@ public class CliqueCluster {
 			Node val = (Node) entry.getValue();//取出Node成员
 
 			if(val.getClusterNo()==0)
-			{		
+			{
 				val.setVisited(); //这样，所有的节点都标成了true.
 				noise_Node.add(val);
 			}
-		}	
+		}
 	}
-	
+
 	private static  void set_node_visited(List <Node> nodes)
 	{
 		Iterator<Node> it=nodes.iterator();
 		while(it.hasNext())
 		{
 			Node process_Node=it.next();
-			process_Node.setVisited(); 
+			process_Node.setVisited();
 		}
 	}
-	
-	
+
+
 	private static int bfs_noise(Node start_node)
 	{
 		//对噪声点做bfs，找到最近的有聚类号的节点，返回该聚类号。
 		Queue<Node> q=new LinkedList<>();
-		q.add(start_node);//起始顶点加入队列					
+		q.add(start_node);//起始顶点加入队列
 	    while(!q.isEmpty())
 	    {
 	        Node top=q.poll();//取出队首元素
@@ -416,43 +416,43 @@ public class CliqueCluster {
 	      }
 	    return 0; //如果他真的是一个独立的点，就归在0类中。
 	}
-	
+
 	public static String get_another(String spo,String match)
 	{
 	/***
-	 * 已知spo 和其中的s或o，返回另一个本体	
+	 * 已知spo 和其中的s或o，返回另一个本体
 	 */
 		List<String> result = Arrays.asList(spo.split(","));
 		//读取spo三元组。 以下代码根据数据集内容进行修改
-		Iterator<String>list_it=result.iterator();		
+		Iterator<String>list_it=result.iterator();
 		String s=list_it.next();
-		list_it.next();//跳过英文label	
+		list_it.next();//跳过英文label
 		String o=list_it.next();
-		
+
 		if(s.equals(match))
 			return o;
-		else 
+		else
 			return s;
 	}
 
-	
+
 	private static void initialize(BufferedWriter writer) throws IOException
-	{		
+	{
 
 		//为noise_node建一个list
 		noise_Node=new ArrayList<Node>();
 		//为border_node建一个list
 		border_Node=new ArrayList<Node>();
-		
+
 		noise_process_Node=new ArrayList<Node>();
-		
+
 		//计算密度阈值
 		//int num=Config.list_so.get(Config.list_so.size()/10).getValue().getDegree();
-		//Config.densityThreshold = num>1 ? num:2;		
-		System.out.println("密度阈值 = "+Config.densityThreshold);	
+		//Config.densityThreshold = num>1 ? num:2;
+		System.out.println("密度阈值 = "+Config.densityThreshold);
 		writer.write(Config.df.format(new Date())+"密度阈值 = "+Config.densityThreshold+"\n\n");
 		writer.write("----------------------------\n");
 
 	}
-	
+
 }
