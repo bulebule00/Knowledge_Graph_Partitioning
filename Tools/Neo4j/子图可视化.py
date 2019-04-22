@@ -11,9 +11,14 @@ g = Graph("http://localhost:7474")
 g.run("MATCH (n) OPTIONAL MATCH (n)-[r]-()DELETE n,r")
 
 
+###选择数据集
+database=2
+### 选择集群号
+clusterNo=2
+
 ### 获取实体信息。
-rootpath="C:\\Users\\liu01\\Desktop\\red_building\\Database_1\\Cluster\\"
-clusterNo=1
+rootpath="F:\\GitHub\\Knowledge_Graph_Partitioning\\Database\\Database_"+str(database)+"\\Cluster\\"
+
 f = open(rootpath+"Cluster"+str(clusterNo)+"_Node.csv",encoding='utf-8')
 df = pd.read_csv(f)
 # print(df['head'].unique)

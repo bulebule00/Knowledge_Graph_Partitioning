@@ -12,9 +12,14 @@ g = Graph("http://localhost:7474")
 #清空neo4j
 g.run("MATCH (n) OPTIONAL MATCH (n)-[r]-()DELETE n,r")
 
-rootpath="F:\\database\\红楼梦\\"
+###选择数据集
+database=2
+
+
 ### 获取实体信息。
-f = open(rootpath+"triples.csv",encoding='utf-8')
+path="F:\\GitHub\\Knowledge_Graph_Partitioning\\Database\\Database_"+str(database)+"\\"
+
+f = open(path+str(database)+".csv",encoding='utf-8')
 df = pd.read_csv(f)
 # print(df['head'].unique)
 #a = df['head'].value_counts()
@@ -24,12 +29,12 @@ frames = [a,b]
 result = pd.concat(frames)
 result=result.drop_duplicates( keep='first', inplace=False)
 result = result.rename(columns={'0': 'node'})
-result.to_csv("F:\\database\\红楼梦\\node.csv",header=1)
+result.to_csv(path+"node.csv",header=1)
 
 ###上传到neo4j
 
-n = open(rootpath+"node.csv" , encoding='utf-8')
-r = open(rootpath+"triples.csv", encoding='utf-8')
+n = open(path+"node.csv" , encoding='utf-8')
+r = open(path+str(database)+".csv", encoding='utf-8')
 data01 = pd.read_csv(n)
 data02 = pd.read_csv(r)
 
