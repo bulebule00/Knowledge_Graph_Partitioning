@@ -1,1 +1,3 @@
 Name,ClusterNo,Property,Degree,Visited,Border
+"""X""",0,噪声,1,true,false
+"""Y""",0,噪声,1,true,false

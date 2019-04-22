@@ -25,6 +25,8 @@ public class CliqueCluster {
 
 	public static void do_clique() throws IOException
 	{
+		long startTime = System.currentTimeMillis();    //获取开始时间
+
 
 		BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Config.cliquelog_filePath)));//写日志
 
@@ -55,7 +57,8 @@ public class CliqueCluster {
         System.out.println("--------边界点处理结束--------\n");
         writer.write("--------边界点处理结束--------\n\n");
         /////////////////////////统计信息////////////////////////////
-
+        long endTime = System.currentTimeMillis();    //获取结束时间
+        
 		System.out.println("--------Clique聚类信息如下--------");
 		writer.write("--------Clique聚类信息如下--------\n");
 		System.out.println("共产生 "+clusterNo+" 个类");
@@ -67,8 +70,10 @@ public class CliqueCluster {
 		System.out.println("Clique聚类日志已写入"+Config.cliquelog_filePath);
 		 /////////////////////结束///////////////////////////////
 
-		System.out.println("--------Clique聚类结束--------\n");
+		System.out.println("--------Clique聚类结束--------");
+		System.out.println("--------程序运行时间：" + (endTime - startTime) + "ms--------\n");    //输出程序运行时间
 		writer.write("--------Clique聚类结束--------\n\n");
+		writer.write("--------程序运行时间：" + (endTime - startTime) + "ms--------\n\n");
         writer.close();
 	}
 

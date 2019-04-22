@@ -3,6 +3,8 @@ Name,ClusterNo,Property,Degree,Visited,Border
 """C""",1,高密度,5,true,false
 """B""",1,边界,2,true,false
 """A""",1,噪声,1,true,false
+"""Y""",0,噪声,1,true,false
+"""X""",0,噪声,1,true,false
 """S""",2,保护,1,true,false
 """R""",2,保护,1,true,false
 """Q""",2,保护,1,true,false

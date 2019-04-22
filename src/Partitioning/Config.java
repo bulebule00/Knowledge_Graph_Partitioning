@@ -10,9 +10,9 @@ import java.util.Map;
 
 public class Config {
 	////参数
-	public static int database=1; //选择数据集
-	public static int densityThreshold=8; //密度阈值,取前百分之十的点最小密度。
-	public static SimpleDateFormat df = new SimpleDateFormat("[MM-dd HH:mm:ss]");//设置日期格式//System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
+	public static int database=2; //选择数据集
+	public static int densityThreshold=4; //密度阈值,取前百分之十的点最小密度。
+	public static SimpleDateFormat df = new SimpleDateFormat("[MM-dd HH:mm:ss:SSS]");//设置日期格式//System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
 
 	////资源
 	static public ArrayList<String> data;//读取 Csv
