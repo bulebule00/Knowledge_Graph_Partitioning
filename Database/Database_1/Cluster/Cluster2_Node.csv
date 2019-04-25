@@ -20,8 +20,8 @@ Name,ClusterNo,Property,Degree,Visited,Border
 """平儿""",2,保护,1,true,false
 """贾赦""",2,高密度,8,true,false
 """邢德全""",2,噪声,1,true,false
+"""张大老爷之女""",2,噪声,1,true,false
 """王善保""",2,噪声,1,true,false
-"""张大老爷之女""",0,噪声,1,true,false
 """隆儿""",2,保护,1,true,false
 """莲花儿""",2,噪声,1,true,false
 """周妈妈""",2,噪声,1,true,false
@@ -35,12 +35,12 @@ Name,ClusterNo,Property,Degree,Visited,Border
 """凤姐之祖王夫人之父""",1,边界,7,true,true
 """潘又安""",2,噪声,1,true,false
 """李妈""",2,噪声,1,true,false
-"""张大老爷""",2,噪声,2,true,true
+"""张大老爷""",2,噪声,2,true,false
 """庆儿""",2,保护,1,true,false
 """秋桐""",2,保护,1,true,false
-"""孙亲太太""",0,噪声,1,true,false
+"""孙亲太太""",2,噪声,1,true,false
 """王夫人之大兄凤姐之父""",2,边界,4,true,true
-"""孙绍祖""",2,噪声,2,true,true
+"""孙绍祖""",2,噪声,2,true,false
 """鲍二""",2,保护,1,true,false
 """丰儿""",2,保护,1,true,false
 """旺儿媳妇""",2,保护,1,true,false

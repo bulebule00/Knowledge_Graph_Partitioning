@@ -317,6 +317,7 @@ public class CliqueCluster {
 			{
 				//friend_is_differ_cluster_Num++;
 				is_border=true;
+				//System.out.println(start.getName()+"连接的其他集群点:"+linked_node.getName()+" 集群号"+linked_node.getClusterNo());
 				linked_clusters.add(Config.clusters.get(linked_node.getClusterNo()));
 				Config.clusters_node.get(now_node_clusterNo).add(linked_node); //就在当前集群的node表中加入其他集群的边缘node
 			}
@@ -395,9 +396,11 @@ public class CliqueCluster {
 		//对噪声点做bfs，找到最近的有聚类号的节点，返回该聚类号。
 		Queue<Node> q=new LinkedList<>();
 		q.add(start_node);//起始顶点加入队列
+	//	System.out.println("对噪声点做bfs:"+start_node.getName());
 	    while(!q.isEmpty())
 	    {
 	        Node top=q.poll();//取出队首元素
+	       // System.out.println("查"+top.getName());
 	        top.setUnVisited();//反向标记，不需要访问噪声点，而噪声点都是false的。其他有聚类号的节点都是true。所以访问到true时候把他设为false就行了。
 	        noise_process_Node.add(top);
 	        if (top.getClusterNo() != 0)
@@ -410,11 +413,17 @@ public class CliqueCluster {
 			while(it.hasNext())
 			{
 				String spo=it.next(); //当前节点存储的一条spo信息。
-				String other=get_another(spo,start_node.getName());//读取spo，得到与当前节点相连的另一个节点
+				String other=get_another(spo,top.getName());//读取spo，得到与当前节点相连的另一个节点
 				Node linked_node=Config.subject_object.get(other); //得到与之相连的节点的Node
+				//System.out.print("---连接"+spo+"  "+linked_node.getName());
 				if(linked_node.getVisited()==true) //反向标记大法好！
 				{
+					//System.out.println("入队");
 					q.add(linked_node);
+				}
+				else
+				{
+					//System.out.println();
 				}
 				//q.add(linked_node);
 			}
